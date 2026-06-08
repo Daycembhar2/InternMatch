@@ -1,0 +1,10 @@
+node_modules/
+target/
+dist/
+.angular/
+__pycache__/
+*.pyc
+*.log
+frond/src/assets/cv/uploads/
+frond/src/assets/images/uploads/
+ia-service/libs/
