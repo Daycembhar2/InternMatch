@@ -1,0 +1,141 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <div class="header-content">
+      <h1>Modifier votre profil</h1>
+      <p>Mettez à jour vos informations personnelles de manière sécurisée</p>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <form [formGroup]="updateadminForm" (ngSubmit)="updateadmin()" class="profile-form">
+
+      <!-- Profile Picture Section -->
+      <div class="profile-picture-section">
+        <div class="avatar-container">
+          <div class="avatar" [style.backgroundImage]="profileImagePreview ? 'url(' + profileImagePreview + ')' : ''">
+            <span *ngIf="!profileImagePreview" class="avatar-placeholder">
+              <svg class="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </span>
+          </div>
+          <label for="profilePicture" class="upload-label">
+            <svg class="icon-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Changer la photo
+          </label>
+          <input type="file" id="profilePicture" accept="image/*" (change)="onImageSelected($event)" style="display:none;">
+        </div>
+      </div>
+
+      <!-- Form Grid -->
+      <div class="form-grid">
+        <!-- First Name -->
+        <div class="form-group">
+          <label for="firstName" class="form-label">Prénom</label>
+          <input 
+            type="text" 
+            id="firstName" 
+            formControlName="nom" 
+            [placeholder]="userDetails?.nom || 'Entrez votre prénom'"
+            class="form-input"
+            [class.error]="nom?.invalid && nom?.touched">
+          <span *ngIf="nom?.invalid && nom?.touched" class="error-text">
+            <span *ngIf="nom?.errors?.['required']">Le prénom est requis</span>
+            <span *ngIf="nom?.errors?.['minlength']">Minimum 4 caractères</span>
+          </span>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <label for="lastName" class="form-label">Nom</label>
+          <input 
+            type="text" 
+            id="lastName" 
+            formControlName="prenom" 
+            [placeholder]="userDetails?.prenom || 'Entrez votre nom'"
+            class="form-input"
+            [class.error]="prenom?.invalid && prenom?.touched">
+          <span *ngIf="prenom?.invalid && prenom?.touched" class="error-text">
+            Le nom est requis
+          </span>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email" class="form-label">Adresse Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          [placeholder]="userDetails?.email || 'Entrez votre email'"
+          class="form-input"
+          [class.error]="email?.invalid && email?.touched">
+        <span *ngIf="email?.invalid && email?.touched" class="error-text">
+          <span *ngIf="email?.errors?.['required']">L'email est requis</span>
+          <span *ngIf="email?.errors?.['email']">Veuillez entrer un email valide</span>
+        </span>
+      </div>
+
+      <!-- Role -->
+      <div class="form-group">
+        <label for="profession" class="form-label">Rôle</label>
+        <input 
+          type="text" 
+          id="profession" 
+          formControlName="role" 
+          [placeholder]="userDetails?.role || 'Entrez votre rôle'"
+          class="form-input"
+          [class.error]="role?.invalid && role?.touched">
+          <select class="form-control" formControlName="role" [disabled]="!isSuperAdmin">
+                <option value="super admin">Super Admin</option>
+                <option value="sous admin">Sous Admin</option>
+              </select>
+              <small *ngIf="!isSuperAdmin" class="text-danger">
+      Vous n'avez pas le droit de modifier le rôle
+    </small>
+
+        <span *ngIf="role?.invalid && role?.touched" class="error-text">
+          Le rôle est requis
+        </span>
+      </div>
+
+      <!-- Password Section -->
+      <div class="form-group">
+        <label for="password" class="form-label">Mot de passe (laisser vide pour ne pas changer)</label>
+        <input 
+          type="password" 
+          id="password" 
+          formControlName="mdp" 
+          placeholder="Laisser vide pour conserver le mot de passe actuel"
+          class="form-input">
+        <small class="help-text">Laisser vide pour conserver votre mot de passe actuel</small>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="button-group">
+        <button type="button" class="btn btn-secondary" (click)="cancelUpdate()">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <svg *ngIf="!isLoading" class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span *ngIf="isLoading" class="spinner"></span>
+          {{ isLoading ? 'Mise à jour...' : 'Enregistrer les modifications' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

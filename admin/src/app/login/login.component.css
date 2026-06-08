@@ -1,0 +1,14 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body.bg-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.h-p100 {
+  min-height: 100vh;
+}

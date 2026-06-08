@@ -1,0 +1,58 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h1>Modifier l'institution</h1>
+    <p>Mettez à jour les informations de l'institution</p>
+  </div>
+
+  <div class="profile-card">
+    <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+
+      <!-- Logo (optionnel pour l'instant) -->
+      <div class="profile-picture-section" *ngIf="logoPreview">
+        <div class="avatar" [style.backgroundImage]="'url(' + logoPreview + ')'"></div>
+      </div>
+
+      <!-- Champs principaux -->
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Nom de l'institution</label>
+          <input type="text" formControlName="nomFaculte" class="form-input"
+                 [class.error]="nomFaculte?.invalid && nomFaculte?.touched">
+          <div class="error-text" *ngIf="nomFaculte?.invalid && nomFaculte?.touched">
+            Nom requis (min. 2 caractères)
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" class="form-input"
+                 [class.error]="email?.invalid && email?.touched">
+          <div class="error-text" *ngIf="email?.invalid && email?.touched">
+            Email invalide ou manquant
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mot de passe <small>(laisser vide pour ne pas changer)</small></label>
+          <input type="password" formControlName="mdp" class="form-input"
+                 placeholder="Nouveau mot de passe (optionnel)">
+        </div>
+
+        
+
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn btn-secondary" (click)="cancel()" [routerLink]="'/listinstitution'">
+          Annuler
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading || updateForm.invalid">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

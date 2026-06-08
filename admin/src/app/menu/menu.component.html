@@ -1,0 +1,132 @@
+<aside class="main-sidebar">
+  <section class="sidebar position-relative">
+
+    <!-- Profil utilisateur -->
+    <div class="user-profile bb-1 px-20 py-10">
+      <div class="d-block text-center">
+        <div class="image">
+          <div class="avatar avatar-xxl rounded-circle d-flex align-items-center justify-content-center mx-auto"
+               style="background-color: #4a90d9; color: white; font-size: 28px; font-weight: bold; width: 60px; height: 60px;">
+            {{ (userDetails?.nom || userDetails?.firstName || 'U').charAt(0).toUpperCase() }}
+          </div>
+        </div>
+        <div class="info pt-15">
+          <a class="px-20 fs-18 fw-500" href="#">
+            {{ userDetails?.nom || userDetails?.firstName || 'Utilisateur' }}
+            {{ userDetails?.prenom || userDetails?.lastName || '' }}
+          </a>
+        </div>
+      </div>
+
+      <ul class="list-inline profile-setting mt-20 mb-0 d-flex justify-content-center gap-3">
+        <li>
+          <a (click)="goToProfil()"
+             style="cursor: pointer;"
+             data-bs-toggle="tooltip"
+             title="Mon profil">
+            <i class="icon-User fs-24">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+          </a>
+        </li>
+        <li>
+          <a (click)="logout()"
+             style="cursor: pointer;"
+             data-bs-toggle="tooltip"
+             title="Se déconnecter">
+            <i class="icon-Lock-overturning fs-24">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Navigation -->
+    <div class="multinav">
+      <div class="multinav-scroll" style="height: 100%;">
+        <ul class="sidebar-menu" data-widget="tree">
+
+          <!-- Tableau de bord -->
+          <li>
+            <a href="/home">
+              <i class="icon-Layout-4-blocks"><span class="path1"></span><span class="path2"></span></i>
+              <span>Tableau de bord</span>
+            </a>
+          </li>
+
+          <!-- Gestion des utilisateurs -->
+          <li class="treeview">
+            <a href="#">
+              <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
+              <span>Utilisateurs</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-right pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li>
+                <a href="/ajouterutilisateur">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Ajouter un utilisateur
+                </a>
+              </li>
+              <li>
+                <a href="/listeetudiant">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Liste des étudiants
+                </a>
+              </li>
+              <li>
+                <a href="/listcandidat">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Liste des candidats
+                </a>
+              </li>
+              <li>
+                <a href="/listentreprise">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Liste des entreprises
+                </a>
+              </li>
+              <li>
+                <a href="/listinstitution">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Liste des institutions
+                </a>
+              </li>
+              <li>
+                <a href="/listeadmin">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Liste des administrateurs
+                </a>
+              </li>
+              <li>
+                <a href="/listcontact">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Messages de contact
+                </a>
+              </li>
+              <li>
+                <a href="/listoffres">
+                  <i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>
+                  Gestion des offres
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+
+        <div class="sidebar-widgets">
+          <div class="copyright text-center m-25">
+            <p>© {{ currentYear }} InternMatch — Tous droits réservés</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</aside>

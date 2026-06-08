@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from lawfirm-admin-template.multipurposethemes.com/main-dark/tables_data.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Jan 2026 14:43:48 GMT -->
+<head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Law Firm - Dashboard  Data Tables</title>
+  
+	<!-- Vendors Style-->
+	
+</head>
+
+<body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <div class="content-wrapper">
+    <div class="container-full">
+      <div class="content-header">
+        <div class="d-flex align-items-center">
+          <div class="me-auto">
+            <h4 class="page-title">Liste des administrateurs</h4>
+          </div>
+        </div>
+      </div>
+
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <div class="box">
+              <div class="box-header d-flex justify-content-between align-items-center">
+                <h4 class="box-title">
+                  <i class="fa fa-users me-10"></i>
+                  Administrateurs ({{ listeFiltered.length }})
+                </h4>
+                <a routerLink="/ajouteradmin" class="btn btn-primary btn-sm">
+                  <i class="fa fa-plus me-5"></i> Ajouter un administrateur
+                </a>
+              </div>
+
+              <div class="box-body">
+                <!-- Contrôles recherche + pagination -->
+                <div class="row mb-15">
+                  <div class="col-md-4">
+                    <label>Afficher
+                      <select
+                        [(ngModel)]="itemsPerPage"
+                        (change)="onItemsPerPageChange()"
+                        class="form-control form-control-sm d-inline w-auto mx-5">
+                        <option *ngFor="let opt of itemsPerPageOptions" [value]="opt">{{ opt }}</option>
+                      </select>
+                      éléments
+                    </label>
+                  </div>
+                  <div class="col-md-4 offset-md-4 text-end">
+                    <label>Rechercher :
+                      <input
+                        type="text"
+                        [(ngModel)]="searchText"
+                        (input)="onSearch()"
+                        class="form-control form-control-sm d-inline w-auto ms-5"
+                        placeholder="Nom, prénom, e-mail...">
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Tableau -->
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered table-hover" style="width:100%">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse e-mail</th>
+                        <th>Rôle</th>
+                        <th *ngIf="roleAdmin === 'superadmin'">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let admin of adminsPage | paginate:{ itemsPerPage: itemsPerPage, currentPage: p }">
+                        <td>{{ admin.id }}</td>
+                        <td>{{ admin.nom }}</td>
+                        <td>{{ admin.prenom }}</td>
+                        <td>{{ admin.email }}</td>
+                        <td>
+                          <span class="badge"
+                            [ngClass]="admin.roleAdmin === 'superadmin' ? 'bg-danger' : 'bg-info'">
+                            {{ admin.roleAdmin === 'superadmin' ? 'Super admin' : 'Sous-admin' }}
+                          </span>
+                        </td>
+                        <td *ngIf="roleAdmin === 'superadmin'">
+                          <a
+                            [routerLink]="['/modifieradmin', admin.id]"
+                            class="btn btn-success btn-sm me-1">
+                            <i class="fa fa-edit me-3"></i> Modifier
+                          </a>
+                          <button
+                            (click)="DeleteAdmin(admin)"
+                            class="btn btn-danger btn-sm">
+                            <i class="fa fa-trash me-3"></i> Supprimer
+                          </button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="listeFiltered.length === 0">
+                        <td colspan="6" class="text-center text-muted py-30">
+                          <i class="fa fa-info-circle me-5"></i>
+                          Aucun administrateur trouvé
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <pagination-controls
+                    style="text-align: right;"
+                    (pageChange)="p = $event"
+                    previousLabel="Précédent"
+                    nextLabel="Suivant">
+                  </pagination-controls>
+                </div>
+
+                <!-- Info pagination -->
+                <div class="row mt-15" *ngIf="listeFiltered.length > 0">
+                  <div class="col-md-6">
+                    <p class="text-muted">
+                      Affichage de {{ debut }} à {{ fin }} sur {{ listeFiltered.length }} éléments
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
+</body>
+</html>

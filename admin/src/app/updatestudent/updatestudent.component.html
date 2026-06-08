@@ -1,0 +1,150 @@
+<app-header></app-header>
+<app-menu></app-menu>
+
+<div class="content-wrapper">
+  <div class="container-full">
+    <div class="content-header">
+      <div class="d-flex align-items-center">
+        <div class="me-auto"><h4 class="page-title">Modifier l'étudiant</h4></div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="row justify-content-center">
+        <div class="col-xl-8 col-12">
+          <div class="box">
+            <div class="box-header">
+              <h4 class="box-title">Informations de l'étudiant</h4>
+            </div>
+            <div class="box-body">
+              <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Nom <span class="text-danger">*</span></label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" formControlName="nom"
+                           [class.is-invalid]="nom?.invalid && nom?.touched">
+                    <div class="invalid-feedback" *ngIf="nom?.invalid && nom?.touched">
+                      Nom requis (min. 2 caractères)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Prénom <span class="text-danger">*</span></label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" formControlName="prenom"
+                           [class.is-invalid]="prenom?.invalid && prenom?.touched">
+                    <div class="invalid-feedback" *ngIf="prenom?.invalid && prenom?.touched">
+                      Prénom requis (min. 2 caractères)
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Email <span class="text-danger">*</span></label>
+                  <div class="col-md-9">
+                    <input type="email" class="form-control" formControlName="email"
+                           [class.is-invalid]="email?.invalid && email?.touched">
+                    <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+                      Email invalide
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">
+                    Mot de passe <small>(laisser vide pour ne pas changer)</small>
+                  </label>
+                  <div class="col-md-9">
+                    <input type="password" class="form-control" formControlName="mdp"
+                           placeholder="Nouveau mot de passe (optionnel)">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Niveau</label>
+                  <div class="col-md-9">
+                    <select class="form-select" formControlName="niveau">
+                      <option value="">-- Sélectionnez un niveau --</option>
+                      <option value="L1">Licence 1</option>
+                      <option value="L2">Licence 2</option>
+                      <option value="L3">Licence 3</option>
+                      <option value="M1">Master 1</option>
+                      <option value="M2">Master 2</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Spécialité</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" formControlName="specialite"
+                           placeholder="Ex : Informatique, Finance...">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Faculté</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" formControlName="faculte"
+                           placeholder="Nom de la faculté">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">CV (lien)</label>
+                  <div class="col-md-9">
+                    <input type="text" class="form-control" formControlName="cv"
+                           placeholder="Lien vers le CV">
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Institution</label>
+                  <div class="col-md-9">
+                    <select class="form-select" formControlName="institutionId">
+                      <option value="">-- Aucune institution --</option>
+                      <option *ngFor="let inst of listeInstitutions" [value]="inst.id">
+                        {{inst.nomFaculte}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group row">
+                  <label class="col-form-label col-md-3">Statut</label>
+                  <div class="col-md-9 d-flex align-items-center mt-5">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox"
+                             formControlName="etat" id="etatSwitch">
+                      <label class="form-check-label" for="etatSwitch">
+                        {{ updateForm.get('etat')?.value ? 'Actif' : 'Inactif' }}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group row mt-20">
+                  <div class="col-md-9 offset-md-3 d-flex gap-10">
+                    <button type="button" class="btn btn-secondary" (click)="cancel()">
+                      Annuler
+                    </button>
+                    <button type="submit" class="btn btn-primary"
+                            [disabled]="isLoading || updateForm.invalid">
+                      <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                      {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
+                    </button>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>

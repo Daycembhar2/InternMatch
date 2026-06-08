@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profil</title>
+</head>
+
+<body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
+
+<div class="wrapper">
+  <div id="loader"></div>
+
+  <app-header></app-header>
+<app-menu></app-menu>
+
+<div class="content-wrapper">
+  <div class="container-full">
+
+    <div class="content-header">
+      <div class="d-flex align-items-center">
+        <div class="me-auto">
+          <h4 class="page-title">Profil Utilisateur</h4>
+        </div>
+      </div>
+    </div>
+
+    <section class="content">
+      <div class="row justify-content-center">
+        <div class="col-xl-8 col-12">
+
+          <div class="box" *ngIf="userDetails; else chargement">
+            <div class="box-header with-border text-center">
+              <h4 class="box-title">Mon Profil</h4>
+            </div>
+
+            <div class="box-body">
+
+              <!-- Avatar initiales (pas d'image externe) -->
+              <div class="text-center mb-20">
+                <div class="avatar avatar-xxl rounded-circle d-inline-flex align-items-center justify-content-center"
+                     style="background-color: #4a90d9; color: white; font-size: 36px; font-weight: bold; width: 80px; height: 80px;">
+                  {{ (userDetails?.nom || userDetails?.firstName || 'U').charAt(0).toUpperCase() }}
+                </div>
+              </div>
+
+              <!-- Informations utilisateur -->
+              <div class="text-center mb-20">
+                <h3 class="user-name mb-5">
+                  {{ userDetails?.nom || userDetails?.firstName || 'Utilisateur' }}
+                  {{ userDetails?.prenom || userDetails?.lastName || '' }}
+                </h3>
+
+                <span class="badge badge-primary px-15 py-5"
+                      *ngIf="userDetails?.role; else sansRole">
+                  {{ userDetails.role }}
+                </span>
+                <ng-template #sansRole>
+                  <span class="badge badge-secondary px-15 py-5">Utilisateur</span>
+                </ng-template>
+
+                <div class="mt-10">
+                  <a [href]="'mailto:' + userDetails?.email" class="text-primary">
+                    {{ userDetails?.email || 'Email non renseigné' }}
+                  </a>
+                </div>
+              </div>
+
+              <!-- Détails -->
+              <div class="row justify-content-center">
+                <div class="col-md-6">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <th>Nom</th>
+                        <td>{{ userDetails?.nom || userDetails?.firstName || '—' }}</td>
+                      </tr>
+                      <tr>
+                        <th>Prénom</th>
+                        <td>{{ userDetails?.prenom || userDetails?.lastName || '—' }}</td>
+                      </tr>
+                      <tr>
+                        <th>Email</th>
+                        <td>{{ userDetails?.email || '—' }}</td>
+                      </tr>
+                      <tr>
+                        <th>Rôle</th>
+                        <td>{{ userDetails?.role || 'Non défini' }}</td>
+                      </tr>
+                      <tr>
+                        <th>Statut</th>
+                        <td><span class="text-success">Actif</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Bouton modifier -->
+              <div class="text-center mt-20">
+                <a [routerLink]="['/updateprofil', userDetails?.id]"
+                   class="btn btn-primary btn-rounded px-30">
+                  <i class="fa fa-edit me-5"></i> Modifier le profil
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Affiché pendant le chargement si userDetails est null -->
+          <ng-template #chargement>
+            <div class="box">
+              <div class="box-body text-center py-50">
+                <p class="text-muted">Chargement du profil...</p>
+              </div>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+</div>
+<!-- ./wrapper -->
+
+</body>
+</html>

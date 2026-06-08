@@ -1,0 +1,41 @@
+<header class="main-header">
+  <div class="d-flex align-items-center logo-box justify-content-start">
+    <a href="/home" class="logo">
+      <div class="logo-mini text-center"
+           style="display:flex; align-items:center; gap:8px; padding: 4px 8px;">
+        <img src="assets/images/logo.png" alt="InternMatch"
+             style="width:150px; height:90px; object-fit:contain;
+                    filter: drop-shadow(0 0 6px rgba(59,130,246,0.5));">
+      </div>
+    </a>
+  </div>
+
+  <nav class="navbar navbar-static-top">
+    <div class="app-menu">
+      <ul class="header-megamenu nav">
+        <li class="btn-group d-lg-inline-flex d-none">
+          <div class="app-menu">
+            <div class="search-bx mx-5">
+              <div class="input-group">
+                <input
+                  type="search"
+                  class="form-control"
+                  placeholder="Rechercher (étudiants, entreprises, offres...)"
+                  [(ngModel)]="searchQuery"
+                  (keyup.enter)="onSearch()">
+                <div class="input-group-append">
+                  <button class="btn" type="button" (click)="onSearch()">
+                    <i class="icon-Search">
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                    </i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

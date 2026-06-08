@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InternMatch - Inscription</title>
+</head>
+
+<body class="hold-transition theme-primary bg-img" style="background-image: url(assets/images/auth-bg/bg-2.jpg)">
+
+  <div class="container h-p100">
+    <div class="row align-items-center justify-content-md-center h-p100">
+      <div class="col-12">
+        <div class="row justify-content-center g-0">
+          <div class="col-lg-5 col-md-5 col-12">
+            <div class="bg-white rounded10 shadow-lg">
+              <div class="content-top-agile p-20 pb-0">
+                <h2 class="text-primary">Créer un compte</h2>
+                <p class="mb-0">Rejoignez la plateforme InternMatch</p>
+              </div>
+              <div class="p-40">
+                <form (ngSubmit)="register()" [formGroup]="registerForm">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
+                      <input
+                        type="text"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Nom complet"
+                        formControlName="nom">
+                    </div>
+                    <small class="text-danger"
+                      *ngIf="nom?.invalid && nom?.touched">
+                      Nom invalide (min. 3 caractères, lettres uniquement)
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-email"></i></span>
+                      <input
+                        type="email"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Adresse e-mail"
+                        formControlName="email">
+                    </div>
+                    <small class="text-danger"
+                      *ngIf="email?.invalid && email?.touched">
+                      Adresse e-mail invalide
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-lock"></i></span>
+                      <input
+                        type="password"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Mot de passe (min. 6 caractères)"
+                        formControlName="password">
+                    </div>
+                    <small class="text-danger"
+                      *ngIf="password?.invalid && password?.touched">
+                      Le mot de passe doit contenir au moins 6 caractères
+                    </small>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-lock"></i></span>
+                      <input
+                        type="password"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Confirmer le mot de passe"
+                        formControlName="confirmPassword">
+                    </div>
+                    <small class="text-danger"
+                      *ngIf="registerForm.errors?.['passwordMismatch'] && confirmPassword?.touched">
+                      Les mots de passe ne correspondent pas
+                    </small>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="checkbox">
+                        <input type="checkbox" id="basic_checkbox_1">
+                        <label for="basic_checkbox_1">
+                          J'accepte les <a href="#" class="text-warning"><b>Conditions d'utilisation</b></a>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-12 text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-info margin-top-10"
+                        [disabled]="isLoading || registerForm.invalid">
+                        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+                        {{ isLoading ? 'Inscription...' : "S'INSCRIRE" }}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class="text-center">
+                  <p class="mt-15 mb-0">
+                    Vous avez déjà un compte ?
+                    <a href="/" class="text-danger ms-5">Se connecter</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center">
+              <p class="mt-20 text-white">- S'inscrire avec -</p>
+              <p class="gap-items-2 mb-20">
+                <a class="btn btn-social-icon btn-round btn-facebook" href="#"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-social-icon btn-round btn-twitter" href="#"><i class="fa fa-twitter"></i></a>
+                <a class="btn btn-social-icon btn-round btn-instagram" href="#"><i class="fa fa-instagram"></i></a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  
+<!-- Mirrored from lawfirm-admin-template.multipurposethemes.com/main-dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Jan 2026 08:32:02 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>Law Firm - Dashboard</title>
+    
+	<!-- Vendors Style-->
+
+     
+  </head>
+
+<body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
+	
+<div class="wrapper">
+	<div id="loader"></div>
+	
+  <app-header></app-header>
+  
+<app-menu></app-menu>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+	  <div class="container-full">
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">								
+				<div class="col-xl-3 col-3">
+					<div class="box">
+						<div class="box-header no-border">
+							<h3 class="box-title">Admin {{totalAdmin}}</h3>
+						</div>
+						<div class="box-body py-0 px-0">
+							<div class="chart" id="totalcases"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-3">
+					<div class="box">
+						<div class="box-header no-border">
+							<h3 class="box-title">Etudiant {{totalEtudiant}}</h3>
+						</div>
+						<div class="box-body py-0 px-0">
+							<div class="chart" id="settledcases"></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xl-3 col-3">
+  <div class="box">
+    <div class="box-header no-border">
+      <h3 class="box-title">Entreprises {{totalEntreprise}}</h3>
+    </div>
+    <div class="box-body py-0 px-0">
+      <div class="chart" id="entreprisecases"></div>
+    </div>
+  </div>
+</div>
+<div class="col-xl-3 col-3">
+  <div class="box">
+    <div class="box-header no-border">
+      <h3 class="box-title">Institutions {{totalInstitution}}</h3>
+    </div>
+    <div class="box-body py-0 px-0">
+      <div class="chart" id="institutioncases"></div>
+    </div>
+  </div>
+</div>
+			</div>
+     <div class="row justify-content-center mt-30">              
+        <div class="col-md-6 d-flex justify-content-center">
+          <div class="charts-wrapper">
+            <div class="chart-container">
+              <canvas id="percentageCanvas" width="350" height="350"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>				
+		</section>
+		<!-- /.content -->
+	  </div>
+  </div>
+  
+<app-footer></app-footer>>
+
+</div>
+	
+</body>
+
+<!-- Mirrored from lawfirm-admin-template.multipurposethemes.com/main-dark/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 28 Jan 2026 08:32:06 GMT -->
+</html>

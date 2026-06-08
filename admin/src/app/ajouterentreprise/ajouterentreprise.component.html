@@ -1,0 +1,147 @@
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <div class="content-wrapper">
+    <div class="container-full">
+
+      <div class="content-header">
+        <div class="d-flex align-items-center">
+          <div class="me-auto">
+            <h4 class="page-title">Ajouter une entreprise</h4>
+            <div class="d-inline-block align-items-center">
+              <nav>
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href="/home"><i class="mdi mdi-home-outline"></i></a>
+                  </li>
+                  <li class="breadcrumb-item">
+                    <a href="/listentreprise">Entreprises</a>
+                  </li>
+                  <li class="breadcrumb-item active">Ajouter</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="entrepriseForm" (ngSubmit)="addNewEntreprise()">
+              <div class="box">
+                <div class="box-header with-border">
+                  <h4 class="box-title">
+                    <i class="fa fa-building me-10"></i>
+                    Informations de l'entreprise
+                  </h4>
+                </div>
+                <div class="box-body">
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">
+                      Nom de l'entreprise <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="text"
+                        formControlName="nom"
+                        placeholder="Raison sociale de l'entreprise"
+                        [class.is-invalid]="nom?.invalid && nom?.touched">
+                      <div class="invalid-feedback" *ngIf="nom?.invalid && nom?.touched">
+                        {{ getErrorMessage(nom, 'nom') }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">
+                      Secteur d'activité <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="text"
+                        formControlName="secteur"
+                        placeholder="Ex : Informatique, Finance, Santé..."
+                        [class.is-invalid]="secteur?.invalid && secteur?.touched">
+                      <div class="invalid-feedback" *ngIf="secteur?.invalid && secteur?.touched">
+                        {{ getErrorMessage(secteur, 'secteur') }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">
+                      Adresse e-mail <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="email"
+                        formControlName="email"
+                        placeholder="contact@entreprise.com"
+                        [class.is-invalid]="email?.invalid && email?.touched">
+                      <div class="invalid-feedback" *ngIf="email?.invalid && email?.touched">
+                        {{ getErrorMessage(email, 'email') }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">
+                      Mot de passe <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="password"
+                        formControlName="mdp"
+                        placeholder="Mot de passe sécurisé"
+                        [class.is-invalid]="mdp?.invalid && mdp?.touched">
+                      <div class="invalid-feedback" *ngIf="mdp?.invalid && mdp?.touched">
+                        {{ getErrorMessage(mdp, 'mdp') }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">
+                      Rôle <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="text"
+                        formControlName="role"
+                        value="Entreprise"
+                        readonly>
+                      <small class="text-muted">Le rôle est automatiquement défini.</small>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="box-footer">
+                  <div class="col-md-10 offset-md-2 d-flex gap-10">
+                    <a href="/listentreprise" class="btn btn-secondary">
+                      <i class="fa fa-arrow-left me-5"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fa fa-save me-5"></i> Ajouter l'entreprise
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InternMatch - Connexion</title>
+</head>
+
+<body class="hold-transition theme-primary bg-img" style="background-image: url(assets/images/auth-bg/bg-1.jpg)">
+
+  <div class="container h-p100">
+    <div class="row align-items-center justify-content-md-center h-p100">
+
+      <div class="col-12">
+        <div class="row justify-content-center g-0">
+          <div class="col-lg-5 col-md-5 col-12">
+            <div class="bg-white rounded10 shadow-lg">
+              <div class="content-top-agile p-20 pb-0">
+                <h2 class="text-primary">Bienvenue</h2>
+                <p class="mb-0">Connectez-vous à votre espace InternMatch</p>
+              </div>
+              <div class="p-40">
+                <form (ngSubmit)="login()" [formGroup]="loginForm">
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-user"></i></span>
+                      <input
+                        type="email"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Adresse e-mail"
+                        formControlName="email">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="input-group mb-3">
+                      <span class="input-group-text bg-transparent"><i class="ti-lock"></i></span>
+                      <input
+                        type="password"
+                        class="form-control ps-15 bg-transparent"
+                        placeholder="Mot de passe"
+                        formControlName="mdp">
+                    </div>
+                  </div>
+                  <div class="row">
+                    
+                    <div class="col-6">
+                      <div class="fog-pwd text-end">
+                        <a [routerLink]="['/forgotpassword']" class="hover-warning">
+                          <i class="ion ion-locked"></i> Mot de passe oublié ?
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-12 text-center mt-10">
+                      <button type="submit" class="btn btn-danger mt-10">SE CONNECTER</button>
+                    </div>
+                  </div>
+                </form>
+                <div class="text-center">
+                  <p class="mt-15 mb-0">Pas encore de compte ?
+                    <a href="/register" class="text-warning ms-5">S'inscrire</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from lawfirm-admin-template.multipurposethemes.com/main-dark/forms_advanced.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Jan 2026 14:43:29 GMT -->
+<head>
+  <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+<body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
+	
+<div class="wrapper">
+  <app-header></app-header>
+  <app-menu></app-menu>
+
+  <div class="content-wrapper">
+    <div class="container-full">
+      <div class="content-header">
+        <div class="d-flex align-items-center">
+          <div class="me-auto"></div>
+        </div>
+      </div>
+
+      <section class="content">
+        <div class="row">
+          <div class="col-12">
+            <form [formGroup]="utilisateurForm" (ngSubmit)="addUtilisateur()">
+              <div class="box">
+                <div class="box-header">
+                  <h4 class="box-title">Ajouter Utilisateur</h4>
+                </div>
+                <div class="box-body">
+                  <!-- Champs Communs -->
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">Nom</label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="text"
+                        name="nom"
+                        formControlName="nom"
+                        placeholder="Entrez le nom"
+                      />
+                      <small class="text-danger" *ngIf="nom?.invalid && nom?.touched">
+                        {{ getErrorMessage(nom, 'Nom') }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">Prénom</label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="text"
+                        name="prenom"
+                        formControlName="prenom"
+                        placeholder="Entrez le prénom"
+                      />
+                      <small class="text-danger" *ngIf="prenom?.invalid && prenom?.touched">
+                        {{ getErrorMessage(prenom, 'Prénom') }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">Email</label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="email"
+                        name="email"
+                        formControlName="email"
+                        placeholder="Entrez l'email"
+                      />
+                      <small class="text-danger" *ngIf="email?.invalid && email?.touched">
+                        {{ getErrorMessage(email, 'Email') }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">Mot de passe</label>
+                    <div class="col-md-10">
+                      <input
+                        class="form-control"
+                        type="password"
+                        name="mdp"
+                        formControlName="mdp"
+                        placeholder="Entrez le mot de passe"
+                      />
+                      <small class="text-danger" *ngIf="mdp?.invalid && mdp?.touched">
+                        {{ getErrorMessage(mdp, 'Mot de passe') }}
+                      </small>
+                    </div>
+                  </div>
+
+                  <!-- Sélection du Rôle -->
+                  <div class="form-group row">
+                    <label class="col-form-label col-md-2">Rôle</label>
+                    <div class="col-md-10">
+                      <select class="form-select" formControlName="role">
+                        <option value="">-- Sélectionnez un rôle --</option>
+                        <option *ngFor="let r of roles" [value]="r">
+                          {{ r }}
+                        </option>
+                      </select>
+                      <small class="text-danger" *ngIf="role?.invalid && role?.touched">
+                        {{ getErrorMessage(role, 'Rôle') }}
+                      </small>
+                    </div>
+                  </div>
+				 
+                  
+
+                  <!-- Champs Étudiant (affichés si rôle = Étudiant) -->
+                  <ng-container *ngIf="shouldShowField('niveau')">
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Niveau</label>
+                      <div class="col-md-10">
+                        <select class="form-select" formControlName="niveau">
+                          <option value="">-- Sélectionnez un niveau --</option>
+                          <option value="L1">Licence 1</option>
+                          <option value="L2">Licence 2</option>
+                          <option value="L3">Licence 3</option>
+                          <option value="M1">Master 1</option>
+                          <option value="M2">Master 2</option>
+                        </select>
+                        <small class="text-danger" *ngIf="niveau?.invalid && niveau?.touched">
+                          {{ getErrorMessage(niveau, 'Niveau') }}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Spécialité</label>
+                      <div class="col-md-10">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="specialite"
+                          formControlName="specialite"
+                          placeholder="Entrez la spécialité"
+                        />
+                        <small class="text-danger" *ngIf="specialite?.invalid && specialite?.touched">
+                          {{ getErrorMessage(specialite, 'Spécialité') }}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Faculté</label>
+                      <div class="col-md-10">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="faculte"
+                          formControlName="faculte"
+                          placeholder="Entrez la faculté"
+                        />
+                        <small class="text-danger" *ngIf="faculte?.invalid && faculte?.touched">
+                          {{ getErrorMessage(faculte, 'Faculté') }}
+                        </small>
+                      </div>
+                    </div>
+
+                    
+                    <!-- Ajouter après le champ CV étudiant -->
+<div class="form-group row">
+  <label class="col-form-label col-md-2">Institution</label>
+  <div class="col-md-10">
+    <select class="form-select" formControlName="institutionId">
+      <option value="">-- Sélectionnez une institution (optionnel) --</option>
+      <option *ngFor="let inst of listeInstitutions" [value]="inst.id">
+        {{inst.nomFaculte}}
+      </option>
+    </select>
+  </div>
+</div>
+                  </ng-container>
+
+                  <!-- Champs Candidat -->
+                  <ng-container *ngIf="shouldShowField('competences')">
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Compétences</label>
+                      <div class="col-md-10">
+                        <textarea
+                          class="form-control"
+                          name="competences"
+                          formControlName="competences"
+                          placeholder="Listez vos compétences"
+                          rows="3"
+                        ></textarea>
+                        <small class="text-danger" *ngIf="competences?.invalid && competences?.touched">
+                          {{ getErrorMessage(competences, 'Compétences') }}
+                        </small>
+                      </div>
+                    </div>
+
+                   <div class="form-group row">
+                      <label class="col-form-label col-md-2">CV</label>
+                      <div class="col-md-10">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="cvCandidat"
+                          formControlName="cvCandidat"
+                          placeholder="Lien du CV (optionnel)"
+                        />
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Champs Entreprise -->
+                  <ng-container *ngIf="shouldShowField('nomEntreprise')">
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Nom Entreprise</label>
+                      <div class="col-md-10">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="nomEntreprise"
+                          formControlName="nomEntreprise"
+                          placeholder="Nom de l'entreprise"
+                        />
+                        <small class="text-danger" *ngIf="nomEntreprise?.invalid && nomEntreprise?.touched">
+                          {{ getErrorMessage(nomEntreprise, 'Nom Entreprise') }}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Secteur</label>
+                      <div class="col-md-10">
+                        <select class="form-select" formControlName="secteur">
+                          <option value="">-- Sélectionnez un secteur --</option>
+                          <option value="IT">Technologies de l'information</option>
+                          <option value="Finance">Finance</option>
+                          <option value="Sante">Santé</option>
+                          <option value="Education">Éducation</option>
+                          <option value="Autre">Autre</option>
+                        </select>
+                        <small class="text-danger" *ngIf="secteur?.invalid && secteur?.touched">
+                          {{ getErrorMessage(secteur, 'Secteur') }}
+                        </small>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Historique</label>
+                      <div class="col-md-10">
+                        <textarea
+                          class="form-control"
+                          name="historique"
+                          formControlName="historique"
+                          placeholder="Historique de l'entreprise (optionnel)"
+                          rows="3"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </ng-container>
+
+                  <!-- Champs Institution -->
+                  <ng-container *ngIf="shouldShowField('nomFaculte')">
+                    <div class="form-group row">
+                      <label class="col-form-label col-md-2">Nom Faculté</label>
+                      <div class="col-md-10">
+                        <input
+                          class="form-control"
+                          type="text"
+                          name="nomFaculte"
+                          formControlName="nomFaculte"
+                          placeholder="Nom de la faculté"
+                        />
+                        <small class="text-danger" *ngIf="nomFaculte?.invalid && nomFaculte?.touched">
+                          {{ getErrorMessage(nomFaculte, 'Nom Faculté') }}
+                        </small>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+				<!-- Champs Admin -->
+				  <ng-container *ngIf="shouldShowField('roleAdmin')">
+					<div class="form-group row">
+					  <label class="col-form-label col-md-2">Rôle Admin</label>
+					  <div class="col-md-10">
+						<select class="form-select" formControlName="roleAdmin">
+						  <option value="">-- Sélectionnez un rôle admin --</option>
+						  <option value="SuperAdmin">Super Admin</option>
+						  <option value="sousAdmin">Sous Admin</option>
+						</select>
+						<small class="text-danger" *ngIf="roleAdmin?.invalid && roleAdmin?.touched">
+						  {{ getErrorMessage(roleAdmin, 'Rôle Admin') }}
+						</small>
+					  </div>
+					</div>
+				  </ng-container>
+
+                <div class="form-group row">
+                  <div class="col-md-10 offset-md-2">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+
+</div> 
+<!-- ./wrapper -->
+	
+	
+</body>
+<!-- Mirrored from lawfirm-admin-template.multipurposethemes.com/main-dark/forms_advanced.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Jan 2026 14:43:33 GMT -->
+</html>
