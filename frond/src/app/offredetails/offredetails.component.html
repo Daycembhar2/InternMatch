@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+    
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/job-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:19:03 GMT -->
+<head>
+        <meta charset="utf-8" />
+        <title>index-1 | Jobcy - Admin & Dashboard Template</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          content="Tailwind Multipurpose Admin & Dashboard Template"
+          name="description"
+        />
+        <meta content="" name="Themesdesign" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+
+
+
+    </head>
+    
+    <body class="bg-white dark:bg-neutral-800">
+
+<app-header></app-header>
+
+<div class="main-content">
+  <div class="page-content">
+
+    <!-- Hero -->
+    <section class="pt-28 lg:pt-44 pb-28 bg-violet-500 dark:bg-neutral-900 bg-center bg-cover relative">
+      <div class="container mx-auto">
+        <div class="text-center text-white">
+          <h3 class="mb-4 text-[26px]">{{ offre?.titre }}</h3>
+          <nav aria-label="breadcrumb">
+            <ol class="flex justify-center text-sm font-medium uppercase">
+              <li><a routerLink="/">Home</a></li>
+              <li><i class="bx bxs-chevron-right align-middle px-2.5"></i>
+                <a routerLink="/listoffres">Offres</a>
+              </li>
+              <li><i class="bx bxs-chevron-right align-middle px-2.5"></i>
+                Détail de l'offre
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <img src="assets/images/about/shape.png" alt=""
+        class="absolute block bg-cover -bottom-0 dark:hidden">
+      <img src="assets/images/about/shape-dark.png" alt=""
+        class="absolute hidden bg-cover -bottom-0 dark:block">
+    </section>
+
+    <!-- Spinner -->
+    <div *ngIf="loading" class="flex justify-center py-20">
+      <div class="w-10 h-10 border-4 border-violet-500 border-t-transparent
+                  rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Contenu -->
+    <section class="py-16" *ngIf="!loading && offre">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-12 gap-y-10 lg:gap-10">
+
+          <!-- ══ COLONNE PRINCIPALE ══ -->
+          <div class="col-span-12 lg:col-span-8">
+            <div class="border rounded-md border-gray-100/30 dark:border-neutral-600/80">
+
+              <!-- Image de l'offre -->
+              <div class="relative" *ngIf="offre.image">
+                <img [src]="offre.image" alt=""
+                  class="rounded-t-md w-full object-cover max-h-64">
+              </div>
+
+              <div class="p-6">
+
+                <!-- Titre + badges -->
+                <div class="grid grid-cols-12 mb-6">
+                  <div class="col-span-12 lg:col-span-8">
+                    <h5 class="mb-1 text-gray-900 dark:text-gray-50 text-xl font-bold">
+                      {{ offre.titre }}
+                    </h5>
+                    <p class="text-gray-500 dark:text-gray-300">
+                      {{ offre.entreprise?.nom ?? 'Entreprise non précisée' }}
+                    </p>
+
+                    <!-- Note moyenne si feedbacks -->
+                    <div *ngIf="feedbacks.length > 0"
+                      class="flex items-center gap-2 mt-2">
+                      <span class="px-2 py-1 text-white bg-yellow-500 rounded text-xs font-bold">
+                        {{ moyenneNote }}
+                      </span>
+                      <span class="text-yellow-500">
+                        <ng-container *ngFor="let s of [1,2,3,4,5]">
+                          {{ s <= moyenneNote ? '★' : '☆' }}
+                        </ng-container>
+                      </span>
+                      <span class="text-xs text-gray-400">
+                        ({{ feedbacks.length }} avis)
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-span-12 lg:col-span-4">
+                    <div class="flex gap-3 md:justify-end">
+                      <span class="text-xs px-3 py-1.5 bg-violet-100 text-violet-700
+                                   rounded-full font-semibold">
+                        {{ offre.type }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Infos rapides -->
+                <div class="grid grid-cols-12 mt-4 gap-y-3 lg:gap-3 mb-6">
+                  <div class="col-span-12 lg:col-span-3"
+                    *ngIf="offre.localisation">
+                    <div class="p-4 border rounded border-gray-100/50 dark:border-neutral-600/80">
+                      <p class="mb-1 text-gray-500 dark:text-gray-300 text-xs">Localisation</p>
+                      <p class="font-medium text-gray-900 dark:text-gray-50">
+                        {{ offre.localisation }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-span-12 lg:col-span-3" *ngIf="offre.type">
+                    <div class="p-4 border rounded border-gray-100/50 dark:border-neutral-600/80">
+                      <p class="mb-1 text-gray-500 dark:text-gray-300 text-xs">Type</p>
+                      <p class="font-medium text-gray-900 dark:text-gray-50">
+                        {{ offre.type }}
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-span-12 lg:col-span-3" *ngIf="offre.time">
+                    <div class="p-4 border rounded border-gray-100/50 dark:border-neutral-600/80">
+                      <p class="mb-1 text-gray-500 dark:text-gray-300 text-xs">Durée</p>
+                      <p class="font-medium text-gray-900 dark:text-gray-50">
+                        {{ offre.time }} semaines
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col-span-12 lg:col-span-3" *ngIf="offre.secteur">
+                    <div class="p-4 border rounded border-gray-100/50 dark:border-neutral-600/80">
+                      <p class="mb-1 text-gray-500 dark:text-gray-300 text-xs">Secteur</p>
+                      <p class="font-medium text-gray-900 dark:text-gray-50">
+                        {{ offre.secteur }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mt-5">
+                  <h5 class="mb-3 text-gray-900 dark:text-gray-50">
+                    Description du poste
+                  </h5>
+                  <p class="text-gray-500 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                    {{ offre.description }}
+                  </p>
+                </div>
+
+                <!-- Dates -->
+                <div class="mt-5 flex flex-wrap gap-4">
+                  <div *ngIf="offre.datePublication"
+                    class="text-xs text-gray-400">
+                    📅 Publié le {{ offre.datePublication | date:'dd/MM/yyyy' }}
+                  </div>
+                  <div *ngIf="offre.dateExpiration"
+                    class="text-xs text-red-400">
+                    ⏰ Expire le {{ offre.dateExpiration | date:'dd/MM/yyyy' }}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- ══ SECTION FEEDBACKS ══ -->
+            <div class="border rounded-md border-gray-100/30 dark:border-neutral-600/80 mt-8 p-6">
+              <h5 class="mb-5 text-gray-900 dark:text-gray-50 font-bold">
+                Avis des stagiaires
+              </h5>
+
+              <!-- Aucun avis -->
+              <div *ngIf="feedbacks.length === 0"
+                class="text-center py-10 text-gray-400">
+                <div class="text-4xl mb-3">💬</div>
+                <p>Aucun avis pour le moment</p>
+                <p class="text-xs mt-1">
+                  Les avis sont donnés par les candidats acceptés
+                </p>
+              </div>
+
+              <!-- Moyenne + avis -->
+              <div *ngIf="feedbacks.length > 0">
+
+                <!-- Moyenne globale -->
+                <div class="flex items-center gap-4 mb-6 p-4
+                            bg-violet-50 dark:bg-neutral-700 rounded-xl">
+                  <span class="text-5xl font-bold text-violet-600">
+                    {{ moyenneNote }}
+                  </span>
+                  <div>
+                    <div class="text-yellow-400 text-2xl mb-1">
+                      <ng-container *ngFor="let s of [1,2,3,4,5]">
+                        {{ s <= moyenneNote ? '★' : '☆' }}
+                      </ng-container>
+                    </div>
+                    <p class="text-xs text-gray-500 dark:text-gray-300">
+                      {{ feedbacks.length }} avis
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Liste des avis -->
+                <div class="space-y-4">
+                  <div *ngFor="let f of feedbacks"
+                    class="p-4 bg-gray-50 dark:bg-neutral-700 rounded-xl
+                           border border-gray-100 dark:border-neutral-600">
+                    <div class="flex justify-between items-center mb-2">
+                      <span class="text-sm font-semibold text-gray-800 dark:text-white">
+                        {{ f.auteur }}
+                      </span>
+                      <span class="text-yellow-400 text-sm">
+                        <ng-container *ngFor="let s of [1,2,3,4,5]">
+                          {{ s <= f.note ? '★' : '☆' }}
+                        </ng-container>
+                      </span>
+                    </div>
+                    <p *ngIf="f.commentaire"
+                      class="text-sm text-gray-600 dark:text-gray-300 italic">
+                      "{{ f.commentaire }}"
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- ══ COLONNE DROITE ══ -->
+          <div class="col-span-12 space-y-6 lg:col-span-4">
+
+            <!-- Job Overview -->
+            <div class="border rounded border-gray-100/30 dark:border-neutral-600/80">
+              <div class="p-6">
+                <h6 class="text-gray-900 text-17 dark:text-gray-50 font-semibold mb-4">
+                  Aperçu de l'offre
+                </h6>
+
+                <ul class="space-y-4">
+                  <li *ngIf="offre.titre">
+                    <div class="flex mt-4">
+                      <i class="uil uil-briefcase-alt text-violet-500 text-xl
+                                bg-violet-500/20 h-12 w-12 text-center leading-[3] rounded-full"></i>
+                      <div class="ltr:ml-4">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">
+                          Titre du poste
+                        </h6>
+                        <p class="text-gray-500 dark:text-gray-300">{{ offre.titre }}</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="offre.localisation">
+                    <div class="flex mt-4">
+                      <i class="uil uil-location-point text-violet-500 text-xl
+                                bg-violet-500/20 h-12 w-12 text-center leading-[3] rounded-full"></i>
+                      <div class="ltr:ml-4">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">
+                          Localisation
+                        </h6>
+                        <p class="text-gray-500 dark:text-gray-300">
+                          {{ offre.localisation }}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="offre.time">
+                    <div class="flex mt-4">
+                      <i class="uil uil-clock text-violet-500 text-xl
+                                bg-violet-500/20 h-12 w-12 text-center leading-[3] rounded-full"></i>
+                      <div class="ltr:ml-4">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">Durée</h6>
+                        <p class="text-gray-500 dark:text-gray-300">
+                          {{ offre.time }} semaines
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="offre.secteur">
+                    <div class="flex mt-4">
+                      <i class="uil uil-building text-violet-500 text-xl
+                                bg-violet-500/20 h-12 w-12 text-center leading-[3] rounded-full"></i>
+                      <div class="ltr:ml-4">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">Secteur</h6>
+                        <p class="text-gray-500 dark:text-gray-300">{{ offre.secteur }}</p>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="offre.datePublication">
+                    <div class="flex mt-4">
+                      <i class="uil uil-history text-violet-500 text-xl
+                                bg-violet-500/20 h-12 w-12 text-center leading-[3] rounded-full"></i>
+                      <div class="ltr:ml-4">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">
+                          Date de publication
+                        </h6>
+                        <p class="text-gray-500 dark:text-gray-300">
+                          {{ offre.datePublication | date:'dd MMM yyyy' }}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                <!-- Boutons action -->
+                <div class="mt-8 space-y-2">
+                  <button (click)="postuler()"
+                    class="btn w-full bg-violet-500 border-transparent
+                           text-white hover:-translate-y-1.5 transition">
+                    Postuler maintenant <i class="uil uil-arrow-right"></i>
+                  </button>
+                  <button (click)="router.navigate(['/listoffres'])"
+                    class="btn w-full bg-yellow-500/20 border-transparent
+                           text-yellow-500 hover:-translate-y-1.5 transition">
+                    <i class="uil uil-arrow-left"></i> Retour aux offres
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Entreprise -->
+            <div class="border rounded border-gray-100/30 dark:border-neutral-600/80"
+              *ngIf="offre.entreprise">
+              <div class="p-6 text-center">
+                <h6 class="text-gray-900 text-17 dark:text-gray-50 font-semibold mb-4">
+                  {{ offre.entreprise.nom }}
+                </h6>
+                <ul class="mt-4 space-y-4 text-left">
+                  <li *ngIf="offre.entreprise.email">
+                    <div class="flex">
+                      <i class="text-xl uil uil-envelope text-violet-500"></i>
+                      <div class="ltr:ml-3">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">Email</h6>
+                        <p class="text-sm text-gray-500 dark:text-gray-300">
+                          {{ offre.entreprise.email }}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                  <li *ngIf="offre.localisation">
+                    <div class="flex">
+                      <i class="text-xl uil uil-map-marker text-violet-500"></i>
+                      <div class="ltr:ml-3">
+                        <h6 class="mb-1 text-sm text-gray-900 dark:text-gray-50">
+                          Localisation
+                        </h6>
+                        <p class="text-sm text-gray-500 dark:text-gray-300">
+                          {{ offre.localisation }}
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- Subscribe -->
+<section class="relative py-16 overflow-hidden bg-zinc-700 dark:bg-neutral-900">
+  <div class="container mx-auto">
+    <div class="grid items-center grid-cols-12 gap-5">
+      <div class="col-span-12 lg:col-span-7 text-center lg:text-start">
+        <h4 class="text-white">Recevez les nouvelles offres !</h4>
+        <p class="mt-1 mb-0 text-white/50">
+          Inscrivez-vous pour être notifié des nouvelles opportunités.
+        </p>
+      </div>
+      <div class="z-40 col-span-12 lg:col-span-5">
+        <div class="flex">
+          <input type="text"
+            class="w-full text-gray-100 bg-transparent rounded-md
+                   border-gray-50/30 ltr:border-r-0 ltr:rounded-r-none
+                   placeholder:text-gray-100 focus:ring-0"
+            placeholder="Votre email">
+          <button
+            class="text-white border-transparent btn ltr:rounded-l-none bg-violet-500">
+            S'inscrire
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>
+</body>
+
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/job-details.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:19:05 GMT -->
+</html>

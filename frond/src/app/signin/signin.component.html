@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+    
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:19:10 GMT -->
+<head>
+        <meta charset="utf-8" />
+        <title>iPage connexion</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          content="Tailwind Multipurpose Admin & Dashboard Template"
+          name="description"
+        />
+        <meta content="" name="Themesdesign" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+    
+    <body class="bg-white dark:bg-neutral-800">
+        <div class="main-content">
+            <div class="page-content">
+<section class="flex items-center justify-center min-h-screen py-10 relative overflow-hidden"
+  style="background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 50%, #ddd6fe 100%);">
+
+  <!-- Bulles sur le fond de page -->
+  <div class="signin-circle signin-circle-1"></div>
+  <div class="signin-circle signin-circle-2"></div>
+  <div class="signin-circle signin-circle-3"></div>
+  <div class="signin-circle signin-circle-4"></div>
+
+  <div class="container mx-auto relative z-10">
+    <div class="grid grid-cols-12">
+      <div class="col-span-12 lg:col-span-6 lg:col-start-4">
+
+        <div class="auth-card auth-right-panel">
+
+          <!-- ── Zone logo : fond clair animé ── -->
+          <div class="logo-zone">
+            <div class="logo-zone-circle lz-c1"></div>
+            <div class="logo-zone-circle lz-c2"></div>
+            <div class="logo-zone-circle lz-c3"></div>
+
+            <a routerLink="/" class="signin-logo-wrapper">
+              <img src="assets/images/logo.png"
+                   alt="InternMatch"
+                   class="signin-logo"
+                   style="max-width: 180px; width: 100%; display: block;">
+            </a>
+          </div>
+
+          <!-- ── Zone formulaire : fond violet ── -->
+          <div class="form-zone">
+
+            <div class="text-center title-anim">
+              <h5 class="text-[18.5px] text-white">Re-bienvenue !</h5>
+              <p class="mt-3 text-white/80">Connectez-vous pour poursuivre votre expérience sur InternMatch.</p>
+            </div>
+
+            <form [formGroup]="signInForm" (ngSubmit)="login()" class="mt-8">
+
+              <div *ngIf="successMessage"
+                class="mb-6 p-4 bg-green-600/30 text-green-200 rounded-lg text-center">
+                {{ successMessage }}
+              </div>
+              <div *ngIf="errorMessage"
+                class="mb-6 p-4 bg-red-600/30 text-red-200 rounded-lg text-center">
+                {{ errorMessage }}
+              </div>
+              <div *ngIf="isLoading" class="text-center my-6">
+                <i class="uil uil-spinner-alt animate-spin text-4xl text-violet-300"></i>
+                <p class="text-gray-300 mt-2">Connexion en cours...</p>
+              </div>
+
+              <!-- Rôle -->
+              <div class="role-select form-field mb-5" style="--i:0">
+                <i class="fas fa-user-tag role-icon"></i>
+                <select formControlName="role"
+                  class="w-full py-2.5 rounded bg-white text-gray-800 border border-gray-300
+                         focus:border-violet-400 focus:ring-2 focus:ring-violet-300/40 focus:outline-none
+                         transition-all duration-200 cursor-pointer"
+                  style="padding-left:38px; padding-right:12px;">
+                  <option value="">Choisir un rôle</option>
+                  <option value="ENTREPRISE">Entreprise</option>
+                  <option value="ETUDIANT">Etudiant</option>
+                  <option value="CANDIDAT">Candidat</option>
+                  <option value="INSTITUTION">Institution</option>
+                </select>
+                <div *ngIf="submitted && f['role']?.invalid"
+                  class="text-red-300 text-sm mt-1">Rôle requis</div>
+              </div>
+
+              <!-- Email -->
+              <div class="mb-5 form-field" style="--i:1">
+                <label class="block text-white mb-2">Email</label>
+                <input type="text" formControlName="email"
+                  class="w-full py-2.5 px-4 rounded bg-white text-gray-800
+                         placeholder-gray-400 border border-gray-300
+                         focus:border-violet-400 focus:ring-2 focus:ring-violet-300/40 focus:outline-none
+                         transition-all duration-200"
+                  placeholder="Entrer votre email">
+                <div *ngIf="submitted && f['email']?.invalid"
+                  class="text-red-300 text-sm mt-1">Email requis</div>
+              </div>
+
+              <!-- Mot de passe -->
+              <div class="mb-5 form-field" style="--i:2">
+                <label class="block text-white mb-2">Mot de passe</label>
+                <input type="password" formControlName="mdp"
+                  class="w-full py-2.5 px-4 rounded bg-white text-gray-800
+                         placeholder-gray-400 border border-gray-300
+                         focus:border-violet-400 focus:ring-2 focus:ring-violet-300/40 focus:outline-none
+                         transition-all duration-200"
+                  placeholder="Entrer votre mot de passe">
+                <div *ngIf="submitted && f['mdp']?.invalid" class="text-red-300 text-sm mt-1">
+                  <div *ngIf="f['mdp']?.errors?.['required']">Mot de passe requis</div>
+                  <div *ngIf="f['mdp']?.errors?.['minlength']">Minimum 6 caractères</div>
+                </div>
+              </div>
+
+              <!-- Mot de passe oublié -->
+              <div class="flex justify-between items-center mb-6 form-field" style="--i:3">
+                <a href="/resetpassword"
+                  class="text-violet-300 hover:text-white text-sm transition-colors duration-200">
+                  Mot de passe oublié ?
+                </a>
+              </div>
+
+              <!-- Bouton connexion -->
+              <button type="submit"
+                class="w-full py-3 font-semibold rounded-xl
+                       bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500
+                       text-white shadow-md
+                       hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600
+                       hover:scale-105 active:scale-95
+                       transition-all duration-300 ease-in-out">
+                Connexion
+              </button>
+
+              <!-- Inscription -->
+              <p class="mt-5 text-center text-gray-300 form-field" style="--i:5">
+                Pas encore de compte ?
+                <a routerLink="/signup"
+                  class="text-violet-300 hover:text-white font-medium transition-colors duration-200">
+                  Inscription
+                </a>
+              </p>
+
+              <!-- Google -->
+              <div class="mt-6 form-field" style="--i:6">
+                <span [innerHTML]="messageCommande"></span>
+                <button type="button"
+                  class="w-full flex items-center justify-center gap-3 py-2.5 px-4
+                         bg-white/10 hover:bg-white/20 border border-white/20
+                         rounded text-white text-sm transition-all duration-200
+                         hover:-translate-y-0.5 active:scale-95">
+                  <div id="g_id_signin">
+                    <img src="assets/images/googleicon.png" alt="Google" class="w-5 h-5">
+                  </div>
+                  Se connecter avec Google
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</div>
+</body>
+</html>

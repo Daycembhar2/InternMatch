@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+    <head>
+        <meta charset="utf-8" />
+        <title>Home InternMatch</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          content="Tailwind Multipurpose Admin & Dashboard Template"
+          name="description"
+        />
+        <meta content="" name="Themesdesign" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+    <body class="bg-white dark:bg-neutral-800">
+<app-header></app-header>
+
+<div class="main-content">
+  <div class="page-content">
+
+    <!-- Titre de la page -->
+    <section class="pt-28 lg:pt-44 pb-28 bg-violet-500 dark:bg-neutral-900 bg-center bg-cover relative">
+      <div class="container mx-auto">
+        <div class="grid">
+          <div class="col-span-12">
+            <div class="text-center text-white">
+              <h3 class="mb-4 text-[26px]">Formulaire pour poster votre offre d'emploi ou de stage</h3>
+              <div class="page-next">
+                <nav class="inline-block" aria-label="breadcrumb">
+                  <ol class="flex justify-center text-sm font-medium uppercase">
+                    <li><a href="/entreprise/home">Accueil </a></li>
+                    <li>
+                      <i class="bx bxs-chevron-right align-middle px-2.5"></i>
+                      <a href="javascript:void(0)">Offres</a>
+                    </li>
+                    <li class="active" aria-current="page">
+                      <i class="bx bxs-chevron-right align-middle px-2.5"></i>Poster offre
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+      <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+    </section>
+
+    <!-- Contenu principal -->
+    <section class="pt-16 pb-20">
+      <div class="container mx-auto">
+        <div class="max-w-2xl mx-auto">
+
+          <!-- Messages globaux -->
+          <div *ngIf="successMessage" class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            {{ successMessage }}
+            <button (click)="successMessage = null" class="float-right text-green-800 hover:text-green-600">✕</button>
+          </div>
+
+          <div *ngIf="errorMessage" class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            {{ errorMessage }}
+            <button (click)="errorMessage = null" class="float-right text-red-800 hover:text-red-600">✕</button>
+          </div>
+
+          <!-- Loader -->
+          <div *ngIf="isLoading" class="text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-violet-500"></div>
+            <p class="mt-4 text-gray-600">Publication de votre offre en cours...</p>
+          </div>
+
+          <!-- Formulaire -->
+        <form *ngIf="!isLoading" [formGroup]="offreForm" (ngSubmit)="sendOffre()" class="space-y-6">
+
+  <!-- Titre -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de l'offre *</label>
+    <input
+      type="text"
+      formControlName="titre"
+      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+      placeholder="Ex: Stage Développeur Fullstack React/Node.js"
+      [class.border-red-500]="titre?.invalid && titre?.touched"
+    >
+    <div *ngIf="titre?.invalid && titre?.touched" class="mt-1 text-sm text-red-600">
+      <div *ngIf="titre?.errors?.['required']">Le titre est requis</div>
+      <div *ngIf="titre?.errors?.['minlength']">Minimum 3 caractères</div>
+    </div>
+  </div>
+
+  <!-- Catégorie -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie principale *</label>
+    <select
+      formControlName="secteur"
+      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+      [class.border-red-500]="offreForm.get('secteur')?.invalid && offreForm.get('secteur')?.touched"
+    >
+      <option value="">Choisir une catégorie</option>
+      <option value="Développement">Développement / IT</option>
+      <option value="Marketing">Marketing / Communication</option>
+      <option value="Design">Design / UI-UX</option>
+      <option value="Data">Data / IA</option>
+      <option value="Finance">Finance / Comptabilité</option>
+      <option value="Santé et médical">Santé et médical</option>
+      <option value="Autres">Autres</option>
+    </select>
+    <div *ngIf="offreForm.get('secteur')?.value === 'Autres'">
+  <label class="block text-sm font-medium text-gray-700 mb-2 mt-2">
+    Précisez la catégorie
+  </label>
+
+  <input
+    type="text"
+    formControlName="autreSecteur"
+    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+    [class.border-red-500]="offreForm.get('autreSecteur')?.invalid && offreForm.get('autreSecteur')?.touched"
+  />
+</div>
+    <div *ngIf="offreForm.get('secteur')?.invalid && offreForm.get('secteur')?.touched" class="mt-1 text-sm text-red-600">
+      Le secteur est requis
+    </div>
+  </div>
+
+  <!-- Type d'offre -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Type d'offre *</label>
+    <select
+      formControlName="type"
+      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+      [class.border-red-500]="type?.invalid && type?.touched"
+    >
+      <option value="">Choisir le type</option>
+      <option value="stage">Stage </option>
+      <option value="emploi">Emploi</option>
+
+    </select>
+    <div *ngIf="type?.invalid && type?.touched" class="mt-1 text-sm text-red-600">
+      Le type est requis
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Description détaillée *</label>
+    <textarea
+      formControlName="description"
+      rows="8"
+      class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500 resize-vertical"
+      placeholder="Décrivez le poste, missions, compétences requises..."
+      [class.border-red-500]="description?.invalid && description?.touched"
+    ></textarea>
+    <div *ngIf="description?.invalid && description?.touched" class="mt-1 text-sm text-red-600">
+      <div *ngIf="description?.errors?.['required']">La description est requise</div>
+      <div *ngIf="description?.errors?.['minlength']">Minimum 10 caractères</div>
+    </div>
+
+    <!-- Bouton IA -->
+    <div class="mt-3">
+      <button
+        type="button"
+        (click)="improveDescription()"
+        [disabled]="isImprovingDescription || titre?.invalid || description?.invalid"
+        class="text-sm text-violet-600 hover:text-violet-800 font-medium underline disabled:opacity-50"
+      >
+        {{ isImprovingDescription ? 'Amélioration en cours...' : 'Améliorer la description avec IA ✨' }}
+      </button>
+
+      <!-- Bouton reset description (visible seulement si améliorée) -->
+      <button
+        *ngIf="descriptionImproved"
+        type="button"
+        (click)="resetDescription()"
+        class="ml-4 text-sm text-gray-500 hover:text-gray-700 underline"
+      >
+        ↩ Revenir à l'originale
+      </button>
+    </div>
+  </div>
+
+  <!-- Niveau de carrière -->
+  
+  <!-- ✅ Ajouter ce bloc après le champ "Nom de l'entreprise" -->
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-2">Localisation</label>
+  <input
+    type="text"
+    formControlName="localisation"
+    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+    placeholder="Ex: Tunis, Sfax, Sousse, Télétravail..."
+  >
+</div>
+  <!-- Image (si nécessaire) -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Image de l'offre</label>
+    <input
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+      class="w-full px-4 py-3 rounded-lg border border-gray-300"
+    >
+  </div>
+  <!-- Date d'expiration -->
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-2">Date d'expiration *</label>
+  <input
+    type="date"
+    formControlName="dateExpiration"
+    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+    [class.border-red-500]="offreForm.get('dateExpiration')?.invalid && offreForm.get('dateExpiration')?.touched"
+  >
+  <div *ngIf="offreForm.get('dateExpiration')?.invalid && offreForm.get('dateExpiration')?.touched" class="mt-1 text-sm text-red-600">
+    La date d'expiration est requise
+  </div>
+</div>
+
+<!-- Durée -->
+<div>
+  <label class="block text-sm font-medium text-gray-700 mb-2">Durée (en semaines) *</label>
+  <input
+    type="number"
+    formControlName="time"
+    min="1"
+    class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-violet-500"
+    placeholder="Ex: 6"
+    [class.border-red-500]="offreForm.get('time')?.invalid && offreForm.get('time')?.touched"
+  >
+  <div *ngIf="offreForm.get('time')?.invalid && offreForm.get('time')?.touched" class="mt-1 text-sm text-red-600">
+    La durée est requise
+  </div>
+</div>
+  <!-- Bouton submit -->
+  <div class="text-right pt-6">
+    <button
+  type="submit"
+  class="inline-flex items-center px-8 py-3 bg-violet-600 hover:bg-violet-700
+         text-white font-medium rounded-lg transition-all duration-200
+         disabled:opacity-50 disabled:cursor-not-allowed shadow-md">
+  <span *ngIf="!isLoading">
+    {{ isEditMode ? 'Mettre à jour' : 'Publier l\'offre' }}
+    <i class="uil uil-message ml-2"></i>
+  </span>
+</button>
+  </div>
+
+</form>
+
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<app-footer></app-footer>
+    </body>
+</html>

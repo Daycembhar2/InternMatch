@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+
+<head>
+    <meta charset="utf-8" />
+    <title>À propos — InternMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="Plateforme de mise en relation étudiants et entreprises" name="description" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body class="bg-white dark:bg-neutral-800">
+    <app-header></app-header>
+
+    <div class="main-content">
+        <div class="page-content">
+
+            <!-- Bannière -->
+            <section class="pt-28 lg:pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 bg-[url('../images/home/page-title.html')] bg-center bg-cover relative group-data-[theme-color=violet]:dark:bg-neutral-900">
+                <div class="container mx-auto">
+                    <div class="grid">
+                        <div class="col-span-12">
+                            <div class="text-center text-white">
+                                <h3 class="mb-4 text-[26px]">À propos</h3>
+                                <div class="page-next">
+                                    <nav class="inline-block" aria-label="Fil d'Ariane">
+                                        <ol class="flex flex-wrap justify-center text-sm font-medium uppercase">
+                                            <li><a (click)="goToHome()" class="cursor-pointer">Accueil</a></li>
+                                            <li class="active" aria-current="page">
+                                                <i class="bx bxs-chevron-right align-middle px-2.5"></i> À propos
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+            </section>
+
+            <!-- Section À propos -->
+            <section class="py-16 overflow-hidden dark:bg-neutral-800">
+                <div class="container mx-auto">
+                    <div class="grid items-center grid-cols-12 gap-5">
+
+                        <!-- Texte -->
+                        <div class="col-span-12 lg:col-span-6">
+                            <h6 class="text-sm text-gray-900 uppercase dark:text-gray-50/80">À propos de nous</h6>
+                            <h2 class="mt-1 mb-4 text-gray-900 dark:text-gray-50/80">
+                                Pourquoi plus de <span class="font-bold text-yellow-500">35 000</span> personnes font confiance à <br> InternMatch ?
+                            </h2>
+                            <p class="font-light text-gray-500 dark:text-gray-300">
+                                InternMatch a été conçu pour répondre aux défis concrets du recrutement en stage et en emploi junior. Nous proposons une plateforme intelligente et centralisée qui connecte étudiants, diplômés, entreprises et universités au sein d'un écosystème structuré. Notre système de correspondance intelligent recommande les opportunités les plus adaptées selon les compétences et les profils — réduisant ainsi les candidatures aléatoires et faisant gagner du temps à chacun.
+                            </p>
+
+                            <div class="grid grid-cols-12 gap-5 mt-8">
+                                <div class="col-span-12 md:col-span-6">
+                                    <ul class="space-y-4 text-gray-700 about-list dark:text-gray-300">
+                                        <li class="ltr:pl-8 rtl:pr-8">Correspondance intelligente</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Plateforme centralisée</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Supervision académique</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Système sécurisé et fiable</li>
+                                    </ul>
+                                </div>
+                                <div class="col-span-12 md:col-span-6">
+                                    <ul class="space-y-4 text-gray-700 about-list dark:text-gray-300">
+                                        <li class="ltr:pl-8 rtl:pr-8">Solutions de marketing digital</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Une équipe talentueuse et expérimentée</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Design créatif et moderne</li>
+                                        <li class="ltr:pl-8 rtl:pr-8">Innovation dans les nouvelles opportunités d'emploi</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="col-span-12 lg:col-span-6">
+                            <div class="lg:w-[180%]">
+                                <img src="assets/images/about/img-01.jpg" alt="À propos d'InternMatch" class="h-auto rounded">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <!-- Fin section À propos -->
+
+        </div>
+    </div>
+
+    <app-footer></app-footer>
+</body>
+</html>

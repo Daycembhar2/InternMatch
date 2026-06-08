@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/blog-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:19:17 GMT -->
+<head>
+        <meta charset="utf-8" />
+        <title>index-1 | Jobcy - Admin & Dashboard Template</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          content="Tailwind Multipurpose Admin & Dashboard Template"
+          name="description"
+        />
+        <meta content="" name="Themesdesign" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    </head>
+    <body class="bg-white dark:bg-neutral-800">
+    <app-header></app-header>
+        <div class="main-content">
+            <div class="page-content">
+                <section class="pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 dark:bg-neutral-900 bg-[url('../images/home/page-title.html')] bg-center bg-cover relative" >
+                    <div class="container mx-auto">
+                        <div class="grid">
+                            <div class="col-span-12">
+                                <div class="text-center text-white">
+                                    <h3 class="mb-4 text-[26px]">Listes des Offres</h3>
+                                    <div class="page-next">
+                                        <nav class="inline-block" aria-label="breadcrumb text-center">
+                                            <ol class="flex justify-center text-sm font-medium uppercase">
+                                               <li><a (click)="goToHome()" class="cursor-pointer">Accueil</a></li>
+                                                <li><i class="bx bxs-chevron-right align-middle px-2.5"></i><a href="javascript:void(0)">Offres</a></li>
+                                                <li class="active" aria-current="page"><i class="bx bxs-chevron-right align-middle px-2.5"></i>Listes des Offres</li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                    <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+                </section>
+                <!-- Start grid -->
+                    <section class="py-16">
+                        <div class="container mx-auto">
+                            <div class="grid grid-cols-12 md:gap-12 gap-y-8 md:gap-y-0">
+                                <div class="col-span-12 lg:col-span-8">
+
+                                  <!-- ── Boutons de filtre par type ─────────────────── -->
+                                  <div class="flex flex-wrap items-center gap-3 mb-6">
+                                    <span class="text-sm font-medium text-gray-500 dark:text-gray-400 mr-1">
+                                      Filtrer :
+                                    </span>
+                                    <button
+                                      *ngFor="let btn of typesFiltresDisponibles"
+                                      (click)="filtrerParType(btn.value)"
+                                      [ngClass]="activeTypeBtn === btn.value
+                                        ? 'bg-violet-600 text-white shadow-md shadow-violet-200'
+                                        : 'bg-white dark:bg-neutral-700 text-gray-600 dark:text-gray-200 border border-gray-200 dark:border-neutral-600 hover:border-violet-400 hover:text-violet-600'"
+                                      class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200">
+                                      {{ btn.label }}
+                                    </button>
+                                    <!-- Badge indiquant le filtre actif -->
+                                    <span *ngIf="activeTypeBtn"
+                                      class="ml-auto text-xs text-violet-500 font-medium flex items-center gap-1">
+                                      <i class="uil uil-filter"></i>
+                                      {{ listOffres.length }} résultat{{ listOffres.length > 1 ? 's' : '' }}
+                                    </span>
+                                  </div>
+
+                                  <div class="grid grid-cols-12 md:gap-5">
+  <ng-container *ngFor="let offre of offresPaginees">
+    <div class="col-span-12 lg:col-span-6">
+      <div class="p-6 transition-all duration-500 bg-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 dark:bg-neutral-800">
+        
+        <!-- En-tête offre -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+          <img [src]="offre.image || 'assets/images/company/default-logo.png'" 
+     alt="{{offre.titre}}" 
+     class="w-12 h-12 rounded-lg object-cover"
+     (error)="offre.image = 'assets/images/company/default-logo.png'">
+            <div>
+              <h5 class="text-lg font-semibold text-gray-900 dark:text-white">{{offre.titre}}</h5>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{offre.entreprise?.nom ?? offre.entreprise}}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Détails -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-5 text-sm text-gray-600 dark:text-gray-400">
+          <div class="flex items-center gap-2">
+            <i class="uil uil-location-point text-violet-500"></i>
+            {{offre.localisation}}
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="uil uil-dollar-sign text-violet-500"></i>
+            {{offre.salaire ? offre.salaire : 'À discuter'}}
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="uil uil-calendar-alt text-violet-500"></i>
+            Publié le {{offre.datePublication | date:'dd MMM yyyy'}}
+          </div>
+        </div>
+
+        <!-- Description courte -->
+        <p class="text-gray-600 dark:text-gray-300 mb-5 line-clamp-3">
+          {{offre.description}}
+        </p>
+
+        <!-- Remplace la section "tags/technologies" par secteur -->
+<div class="flex items-center gap-2" *ngIf="offre.secteur">
+  <i class="uil uil-tag text-violet-500"></i>
+  <span class="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-700 dark:bg-neutral-700 dark:text-gray-300">
+    {{ offre.secteur }}
+  </span>
+</div>
+        
+        <!-- Actions -->
+        <div class="flex items-center justify-between">
+          <a [routerLink]="['/offre', offre.id]" 
+             class="text-violet-600 hover:text-violet-800 font-medium">
+            Voir l'offre <i class="uil uil-arrow-right"></i>
+          </a>
+          <!-- Modal connexion requise -->
+<div *ngIf="showLoginPrompt"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="bg-white rounded-xl p-8 max-w-sm w-full text-center shadow-xl">
+
+    <div class="text-5xl mb-4">🔒</div>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">Connexion requise</h3>
+    <p class="text-gray-500 mb-6">
+      Vous devez être connecté pour postuler à cette offre.
+    </p>
+
+    <div class="flex gap-3 justify-center">
+      <button
+        (click)="showLoginPrompt = false"
+        class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+        Annuler
+      </button>
+      <button
+        (click)="router.navigate(['/signin'])"
+        class="px-5 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition">
+        Se connecter
+      </button>
+    </div>
+
+  </div>
+</div>
+<span *ngIf="compteursMap[offre.id]"
+      class="text-xs text-gray-400 flex items-center gap-1">
+  <i class="uil uil-users-alt text-violet-400"></i>
+  {{ compteursMap[offre.id] }} candidat{{ compteursMap[offre.id] > 1 ? 's' : '' }}
+</span>
+          <!-- Bouton conditionnel : Modifier si ENTREPRISE propriétaire, Postuler sinon -->
+          <ng-container *ngIf="currentRole === 'ENTREPRISE'; else btnPostuler">
+            <button class="px-5 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-sm font-medium flex items-center gap-1"
+              type="button"
+              (click)="modifierOffre(offre.id)">
+              <i class="uil uil-edit"></i> Modifier
+            </button>
+          </ng-container>
+          <ng-template #btnPostuler>
+            <button class="px-5 py-2 bg-violet-600 hover:bg-violet-700 text-white rounded-lg text-sm font-medium"
+              type="button"
+              (click)="goToPostulation(offre.id)">
+              Postuler
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+<!-- Si pas d'offres -->
+<div *ngIf="listOffres?.length === 0" class="col-span-12 text-center py-16">
+  <p class="text-xl text-gray-600 dark:text-gray-300">Aucune offre disponible pour le moment</p>
+</div>
+                                  </div>
+                                
+                                       <ul class="flex justify-center gap-2 mt-14" *ngIf="totalPages > 1">
+
+  <!-- Précédent -->
+  <li class="w-12 h-12 text-center border rounded-full cursor-pointer border-gray-100/50 dark:border-zinc-600"
+      [class.opacity-40]="currentPage === 1"
+      (click)="changerPage(currentPage - 1)">
+    <span class="text-16 leading-[2.8] block dark:text-gray-50">
+      <i class="mdi mdi-chevron-double-left"></i>
+    </span>
+  </li>
+
+  <!-- Numéros de page -->
+  <li *ngFor="let page of pages"
+      class="w-12 h-12 text-center border rounded-full cursor-pointer transition"
+      [ngClass]="page === currentPage
+        ? 'bg-violet-500 text-white border-transparent'
+        : 'text-gray-900 border-gray-100/50 dark:border-zinc-600 hover:bg-gray-100/30 dark:text-gray-50'"
+      (click)="changerPage(page)">
+    <span class="text-16 leading-[2.8] block">{{ page }}</span>
+  </li>
+
+  <!-- Suivant -->
+  <li class="w-12 h-12 text-center border rounded-full cursor-pointer border-gray-100/50 dark:border-zinc-600"
+      [class.opacity-40]="currentPage === totalPages"
+      (click)="changerPage(currentPage + 1)">
+    <span class="text-16 leading-[2.8] block dark:text-gray-50">
+      <i class="mdi mdi-chevron-double-right"></i>
+    </span>
+  </li>
+
+</ul>
+
+<!-- Compteur -->
+<p *ngIf="listOffres.length > 0" class="text-center text-sm text-gray-400 mt-4">
+  {{ (currentPage - 1) * pageSize + 1 }}–{{ Math.min(currentPage * pageSize, listOffres.length) }}
+  sur {{ listOffres.length }} offres
+</p>
+                                </div>
+                               <div class="col-span-12 lg:col-span-4">
+
+  <!-- Filtre Localisation -->
+  <div class="mt-6">
+    <h6 class="mb-3 text-gray-900 text-16 dark:text-gray-50">Localisation</h6>
+    <div class="w-full h-0.5 rounded-full bg-gray-100/60 dark:bg-gray-500/20 mb-4">
+      <div class="bg-violet-500 w-1/4 h-0.5 rounded-l-full"></div>
+    </div>
+    <input
+      type="text"
+      [(ngModel)]="selectedLocalisation"
+      (ngModelChange)="onFilterChange()"
+      placeholder="Ex: Tunis, Sfax..."
+      class="w-full rounded border-gray-100/50 placeholder:text-13 dark:border-zinc-600 dark:bg-transparent dark:text-gray-300">
+  </div>
+
+  <!-- Filtre Secteur -->
+  <div class="mt-8">
+    <h6 class="mb-3 text-gray-900 text-16 dark:text-gray-50">Secteur</h6>
+    <div class="w-full h-0.5 rounded-full bg-gray-100/60 dark:bg-gray-500/20 mb-4">
+      <div class="bg-violet-500 w-1/4 h-0.5 rounded-l-full"></div>
+    </div>
+    <input
+      type="text"
+      [(ngModel)]="selectedSecteur"
+      (ngModelChange)="onFilterChange()"
+      placeholder="Ex: Informatique, Finance..."
+      class="w-full rounded border-gray-100/50 placeholder:text-13 dark:border-zinc-600 dark:bg-transparent dark:text-gray-300">
+  </div>
+
+  <!-- Bouton reset -->
+  <button
+    (click)="resetFiltres()"
+    class="mt-8 w-full py-2 rounded-lg border border-violet-500 text-violet-500 hover:bg-violet-500 hover:text-white transition text-sm font-medium">
+    <i class="uil uil-times-circle mr-1"></i> Réinitialiser les filtres
+  </button>
+
+</div>
+                            </div>
+                        </div>
+                    </section>
+                <!-- End grid -->
+            </div>
+        </div>
+       <app-footer></app-footer>
+</body>
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/blog-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:19:17 GMT -->
+</html>

@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-gray-50 dark:bg-neutral-900 py-16 px-4">
+
+  <!-- Header -->
+  <div class="text-center mb-12">
+    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-3">
+      Choisissez votre plan
+    </h2>
+    <p class="text-gray-500 dark:text-gray-400 text-lg">
+      Publiez vos offres et trouvez les meilleurs talents
+    </p>
+  </div>
+
+  <!-- Cards -->
+  <div class="flex justify-center gap-8 flex-wrap max-w-5xl mx-auto">
+
+    <div
+      *ngFor="let plan of pricingPlans"
+      class="relative flex flex-col justify-between p-6 rounded-2xl
+             border-2 bg-white dark:bg-neutral-800
+             w-[260px] min-h-[380px]
+             transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+      [ngClass]="plan.recommended
+        ? 'border-violet-500 shadow-xl shadow-violet-100'
+        : 'border-gray-200 shadow-md'"
+    >
+
+      <!-- Badge Recommandé -->
+      <div
+        *ngIf="plan.recommended"
+        class="absolute -top-3.5 left-1/2 -translate-x-1/2
+               bg-violet-600 text-white text-xs font-bold
+               px-4 py-1 rounded-full shadow-md whitespace-nowrap"
+      >
+        ⭐ Recommandé
+      </div>
+
+      <!-- Nom du plan -->
+      <div>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">
+          {{ plan.name }}
+        </h3>
+        <p class="text-xs text-gray-400 mb-4 uppercase tracking-wide">
+          {{ plan.period === 'year' ? 'Facturation annuelle' : 'Facturation mensuelle' }}
+        </p>
+
+        <!-- Prix -->
+        <div class="mb-6">
+          <span class="text-4xl font-extrabold text-violet-700 dark:text-violet-400">
+            {{ isNumericPrice(plan) ? plan.price + ' DT' : 'Gratuit' }}
+          </span>
+          <span class="text-gray-500 ml-1 text-sm">
+            /{{ plan.period === 'year' ? 'an' : 'mois' }}
+          </span>
+        </div>
+
+        <!-- Features -->
+        <ul class="space-y-2.5 mb-8">
+          <li
+            *ngFor="let feature of plan.features"
+            class="flex items-start gap-2 text-gray-600 dark:text-gray-300"
+          >
+            <svg class="w-4 h-4 text-violet-500 flex-shrink-0 mt-0.5"
+                 fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0
+                   00-1.414-1.414L9 10.586 7.707 9.293a1 1 0
+                   00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"/>
+            </svg>
+            <span class="text-sm">{{ feature }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Bouton -->
+      <button
+        (click)="selectPlan(plan)"
+        class="w-full py-2.5 rounded-xl font-semibold text-sm
+               transition-all duration-300 focus:outline-none focus:ring-4
+               focus:ring-violet-300"
+        [ngClass]="plan.recommended
+          ? 'bg-violet-600 text-white hover:bg-violet-700 shadow-md'
+          : 'bg-white dark:bg-neutral-700 text-violet-700 dark:text-violet-300
+             border-2 border-violet-300 hover:bg-violet-50'"
+      >
+        {{ plan.price === 'Free' ? '🚀 Commencer gratuitement' : '💳 Choisir ce plan' }}
+      </button>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+    
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:18:26 GMT -->
+<head>
+        <meta charset="utf-8" />
+        <title>Profile - InternMatch</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta
+          content="Tailwind Multipurpose Admin & Dashboard Template"
+          name="description"
+        />
+        <meta content="" name="Themesdesign" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+       
+    </head>
+    <body>
+
+    <!--</body> -->
+   
+ <app-header></app-header>
+
+<div class="main-content">
+  <div class="page-content">
+
+    <!-- Hero -->
+    <section class="pt-28 lg:pt-44 pb-28 bg-violet-500 dark:bg-neutral-900 bg-center bg-cover relative">
+      <div class="container mx-auto">
+        <div class="text-center text-white">
+          <h3 class="mb-4 text-[26px]">Mon Profil</h3>
+          <nav aria-label="breadcrumb">
+            <ol class="flex justify-center text-sm font-medium uppercase">
+             <li><a (click)="goToHome()" class="cursor-pointer">Home</a></li>
+              <li><i class="bx bxs-chevron-right align-middle px-2.5"></i>Mon Profil</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+      <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+    </section>
+
+<!-- Spinner -->
+<div *ngIf="loading" class="flex justify-center py-20">
+  <div class="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+</div>
+
+<section class="py-20" *ngIf="!loading && utilisateur">      <div class="container mx-auto">
+        <div class="grid grid-cols-12 gap-y-10 lg:gap-10">
+
+          <!-- ══ COLONNE GAUCHE ══ -->
+          <div class="col-span-12 lg:col-span-4">
+            <div class="border rounded border-gray-100/50 dark:border-neutral-600">
+
+              <!-- Avatar + nom + rôle -->
+              <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
+                <div class="text-center">
+
+                  <!-- Avatar initiales -->
+                  <div class="w-20 h-20 mx-auto rounded-full bg-violet-500 flex items-center justify-center text-white text-2xl font-bold border-2 border-violet-200">
+                    {{ initiales }}
+                  </div>
+
+                  <h6 class="mt-4 mb-0 text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    {{ nomAffiche }}
+                  </h6>
+                  <p class="mb-4 text-gray-500 dark:text-gray-300 text-sm">{{ soustitre }}</p>
+
+                  <!-- Icônes sociales -->
+                  <ul class="flex flex-wrap justify-center gap-2 mb-0">
+                    <li class="w-10 h-10 text-lg leading-10 transition-all duration-300 ease-in-out rounded bg-violet-500/20 text-violet-500 hover:bg-violet-500 hover:text-white text-center">
+                      <a href="javascript:void(0)"><i class="uil uil-linkedin-alt"></i></a>
+                    </li>
+                    <li class="w-10 h-10 text-lg leading-10 transition-all duration-300 ease-in-out rounded bg-sky-500/20 text-sky-500 hover:bg-sky-500 hover:text-white text-center">
+                      <a href="javascript:void(0)"><i class="uil uil-twitter-alt"></i></a>
+                    </li>
+                    <li class="w-10 h-10 text-lg leading-10 text-green-500 transition-all duration-300 ease-in-out rounded bg-green-500/20 hover:bg-green-500 hover:text-white text-center">
+                      <a href="javascript:void(0)"><i class="uil uil-envelope"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Documents (CV) — étudiant & candidat -->
+              <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600"
+                   *ngIf="(role === 'ETUDIANT' || role === 'CANDIDAT') && utilisateur.cv">
+                <h6 class="mb-4 font-semibold text-gray-900 text-17 dark:text-gray-50">Documents</h6>
+                <div class="flex items-center mt-2">
+                  <div class="text-2xl text-gray-500 shrink-0">
+                    <i class="uil uil-file"></i>
+                  </div>
+                  <div class="ml-4 flex-1 min-w-0">
+                    <h6 class="mb-0 text-gray-900 text-16 dark:text-gray-50 truncate">{{ utilisateur.cv }}</h6>
+                    <p class="mb-0 text-gray-500 dark:text-gray-300 text-sm">CV uploadé</p>
+                  </div>
+                  <div class="ml-auto text-xl">
+                    <a [href]="'assets/cv/uploads/' + utilisateur.cv"
+                       download
+                       class="text-gray-500 hover:text-violet-500">
+                      <i class="uil uil-import"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contacts -->
+              <div class="p-5">
+                <h6 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Contacts</h6>
+                <ul class="space-y-3 mb-0">
+
+                  <!-- Email commun -->
+                  <li class="pb-2">
+                    <div class="flex gap-2">
+                      <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Email</label>
+                      <p class="mb-0 text-sm text-gray-500 dark:text-gray-300 break-all">{{ utilisateur.email }}</p>
+                    </div>
+                  </li>
+                  <!-- Téléphone commun — AJOUT -->
+<li class="pb-2" *ngIf="utilisateur.telephone">
+  <div class="flex gap-2">
+    <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Téléphone</label>
+    <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.telephone }}</p>
+  </div>
+</li>
+                  <!-- Etudiant -->
+                  <ng-container *ngIf="role === 'ETUDIANT'">
+                    <li class="pb-2" *ngIf="utilisateur.niveau">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Niveau</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.niveau }}</p>
+                      </div>
+                    </li>
+                    <li class="pb-2" *ngIf="utilisateur.specialite">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Spécialité</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.specialite }}</p>
+                      </div>
+                    </li>
+                    <li class="pb-2" *ngIf="utilisateur.faculte">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Faculté</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.faculte }}</p>
+                      </div>
+                    </li>
+                    <li class="pb-2">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Statut</label>
+                        <span [class]="utilisateur.etat
+                          ? 'text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium'
+                          : 'text-xs px-2 py-0.5 bg-red-100 text-red-700 rounded-full font-medium'">
+                          {{ utilisateur.etat ? 'Actif' : 'Inactif' }}
+                        </span>
+                      </div>
+                    </li>
+                  </ng-container>
+<!-- Candidat -->
+<ng-container *ngIf="role === 'CANDIDAT'">
+  <li class="pb-2" *ngIf="utilisateur.competences">
+    <div class="flex gap-2">
+      <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Compétences</label>
+      <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.competences }}</p>
+    </div>
+  </li>
+ <li class="pb-2" *ngIf="utilisateur.secteur">
+  <div class="flex gap-2">
+    <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Domaine</label>
+    <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.secteur }}</p>
+  </div>
+</li>
+</ng-container>
+
+                  <!-- Entreprise -->
+                  <ng-container *ngIf="role === 'ENTREPRISE'">
+                    <li class="pb-2" *ngIf="utilisateur.nomEntreprise">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Entreprise</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.nomEntreprise }}</p>
+                      </div>
+                    </li>
+                    <li class="pb-2" *ngIf="utilisateur.secteur">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Secteur</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.secteur }}</p>
+                      </div>
+                    </li>
+                    <li class="pb-2">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Statut</label>
+                        <span [class]="utilisateur.etat
+                          ? 'text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium'
+                          : 'text-xs px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full font-medium'">
+                          {{ utilisateur.etat ? 'Approuvé' : "En attente d'approbation" }}
+                        </span>
+                      </div>
+                    </li>
+                  </ng-container>
+
+                  <!-- Institution -->
+                  <ng-container *ngIf="role === 'INSTITUTION'">
+                    <li class="pb-2" *ngIf="utilisateur.nomFaculte">
+                      <div class="flex gap-2">
+                        <label class="w-28 text-sm font-medium text-gray-900 dark:text-gray-50 shrink-0">Faculté</label>
+                        <p class="mb-0 text-sm text-gray-500 dark:text-gray-300">{{ utilisateur.nomFaculte }}</p>
+                      </div>
+                    </li>
+                  </ng-container>
+
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ══ COLONNE DROITE ══ -->
+          <div class="col-span-12 lg:col-span-8">
+            <div class="border rounded border-gray-100/50 dark:border-neutral-600">
+
+              <!-- Onglets -->
+              <div class="px-6 py-0 border-b border-gray-100/50 dark:border-neutral-600">
+                <ul class="flex text-sm font-medium text-gray-700">
+                  <li>
+                    <button
+                      (click)="setTab('overview')"
+                      class="inline-block py-4 px-[18px] transition-all duration-200 dark:text-gray-50"
+                      [class.border-b-2]="activeTab === 'overview'"
+                      [class.border-violet-500]="activeTab === 'overview'"
+                      [class.text-violet-600]="activeTab === 'overview'"
+                      [class.text-gray-500]="activeTab !== 'overview'">
+                      Aperçu
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      (click)="setTab('settings')"
+                      class="inline-block py-4 px-[18px] transition-all duration-200 dark:text-gray-50"
+                      [class.border-b-2]="activeTab === 'settings'"
+                      [class.border-violet-500]="activeTab === 'settings'"
+                      [class.text-violet-600]="activeTab === 'settings'"
+                      [class.text-gray-500]="activeTab !== 'settings'">
+                      Paramètres
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- ── Onglet Aperçu ── -->
+              <div class="p-6" *ngIf="activeTab === 'overview'">
+
+                <!-- ETUDIANT -->
+                <ng-container *ngIf="role === 'ETUDIANT'">
+                  <div class="space-y-6">
+                    <div>
+                      <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">À propos</h5>
+                      <p class="mt-3 text-sm text-gray-500 dark:text-gray-300">
+                        Étudiant en <strong>{{ utilisateur.specialite || '—' }}</strong>,
+                        niveau <strong>{{ utilisateur.niveau || '—' }}</strong>,
+                        inscrit à <strong>{{ utilisateur.faculte || '—' }}</strong>.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Informations académiques</h6>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-gray-50 dark:bg-neutral-700/40 rounded-xl border border-gray-200 dark:border-zinc-700">
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Prénom</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.prenom }}</p>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Nom</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.nom }}</p>
+                        </div>
+                        <div class="md:col-span-2">
+                          <p class="text-xs text-gray-400 mb-0.5">Email</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.email }}</p>
+                        </div>
+                        <div *ngIf="utilisateur.niveau">
+                          <p class="text-xs text-gray-400 mb-0.5">Niveau d'études</p>
+                          <span class="text-xs px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full font-medium">
+                            {{ utilisateur.niveau }}
+                          </span>
+                        </div>
+                        <div *ngIf="utilisateur.specialite">
+                          <p class="text-xs text-gray-400 mb-0.5">Spécialité</p>
+                          <span class="text-xs px-2 py-0.5 bg-sky-100 text-sky-700 rounded-full font-medium">
+                            {{ utilisateur.specialite }}
+                          </span>
+                        </div>
+                        <div *ngIf="utilisateur.faculte" class="md:col-span-2">
+                          <p class="text-xs text-gray-400 mb-0.5">Faculté / Institution</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.faculte }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- ── Encadrant ── -->
+<div class="mt-6 p-5 bg-gray-50 dark:bg-neutral-700/40 rounded-xl
+            border border-gray-200 dark:border-zinc-700">
+
+  <h6 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-4">
+    👨‍🏫 Mon Encadrant
+  </h6>
+
+  <!-- Statut actuel -->
+  <div *ngIf="utilisateur?.encadrantChoisi" class="mb-4 flex items-center gap-3">
+    <span class="text-sm text-gray-700 dark:text-gray-200">
+      <strong>{{ utilisateur.encadrantChoisi.split('|')[0] }}</strong>
+      <span class="text-gray-400 text-xs ml-1">
+        ({{ utilisateur.encadrantChoisi.split('|')[1] }})
+      </span>
+    </span>
+    <span [ngClass]="{
+      'bg-yellow-100 text-yellow-700': utilisateur.statutEncadrant === 'EN_ATTENTE',
+      'bg-green-100 text-green-700':   utilisateur.statutEncadrant === 'ACCEPTE',
+      'bg-red-100 text-red-700':       utilisateur.statutEncadrant === 'REFUSE'
+    }" class="text-xs px-2 py-0.5 rounded-full font-medium">
+      {{ utilisateur.statutEncadrant === 'EN_ATTENTE' ? '⏳ En attente de validation'
+       : utilisateur.statutEncadrant === 'ACCEPTE'    ? '✅ Accepté'
+       : utilisateur.statutEncadrant === 'REFUSE'     ? '❌ Refusé — choisissez un autre'
+       : '' }}
+    </span>
+  </div>
+
+  <p *ngIf="!utilisateur?.encadrantChoisi"
+     class="text-sm text-gray-400 italic mb-4">
+    Vous n'avez pas encore choisi d'encadrant.
+  </p>
+
+  <!-- Messages -->
+  <div *ngIf="encadrantMessage"
+    class="mb-3 px-3 py-2 bg-green-100 text-green-700 rounded-lg text-sm">
+    ✅ {{ encadrantMessage }}
+  </div>
+  <div *ngIf="encadrantError"
+    class="mb-3 px-3 py-2 bg-red-100 text-red-700 rounded-lg text-sm">
+    ❌ {{ encadrantError }}
+  </div>
+
+  <!-- Sélecteur — masqué si déjà ACCEPTE -->
+  <ng-container *ngIf="utilisateur?.statutEncadrant !== 'ACCEPTE'">
+
+    
+    <div *ngIf="encadrantsDisponibles.length > 0" class="space-y-2">
+      <label class="text-sm font-medium text-gray-700 dark:text-gray-200">
+        {{ utilisateur?.statutEncadrant === 'REFUSE'
+           ? 'Choisir un autre encadrant :'
+           : 'Choisir un encadrant :' }}
+      </label>
+
+      <div class="grid grid-cols-1 gap-2 mt-2">
+        <div *ngFor="let enc of encadrantsDisponibles"
+          (click)="encadrantSelectionne = enc"
+          [ngClass]="encadrantSelectionne === enc
+            ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20'
+            : 'border-gray-200 dark:border-neutral-600 hover:border-violet-300'"
+          class="flex items-center justify-between px-4 py-3 border-2 rounded-xl
+                 cursor-pointer transition-all duration-200">
+          <div>
+            <p class="text-sm font-medium text-gray-800 dark:text-white">
+              {{ enc.split('|')[0] }}
+            </p>
+            <p class="text-xs text-gray-400">{{ enc.split('|')[1] }}</p>
+          </div>
+          <div *ngIf="encadrantSelectionne === enc"
+            class="w-5 h-5 rounded-full bg-violet-500 flex items-center justify-center">
+            <span class="text-white text-xs">✓</span>
+          </div>
+        </div>
+      </div>
+
+      <button (click)="choisirEncadrant()"
+        [disabled]="!encadrantSelectionne || choisissantEncadrant"
+        class="mt-4 px-6 py-2 bg-violet-500 hover:bg-violet-600 text-white text-sm
+               rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed">
+        {{ choisissantEncadrant ? 'Envoi...' : 'Confirmer ce choix' }}
+      </button>
+    </div>
+
+  </ng-container>
+
+</div>
+                  </div>
+                </ng-container>
+
+               <!-- ── Formulaire CANDIDAT ── -->
+<!-- CANDIDAT aperçu -->
+<ng-container *ngIf="role === 'CANDIDAT'">
+  <div class="space-y-6">
+    <div>
+      <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">À propos</h5>
+     <p class="mt-3 text-sm text-gray-500 dark:text-gray-300">
+  Candidat à la recherche d'opportunités
+  <span *ngIf="utilisateur.secteur">
+    en <strong>{{ utilisateur.secteur }}</strong>  <!-- ✅ -->
+  </span>.
+</p>
+    </div>
+
+    <div>
+      <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Informations</h6>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-gray-50
+                  dark:bg-neutral-700/40 rounded-xl border border-gray-200 dark:border-zinc-700">
+        <div>
+          <p class="text-xs text-gray-400 mb-0.5">Prénom</p>
+          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.prenom }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-gray-400 mb-0.5">Nom</p>
+          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.nom }}</p>
+        </div>
+        <div class="md:col-span-2">
+          <p class="text-xs text-gray-400 mb-0.5">Email</p>
+          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.email }}</p>
+        </div>
+
+        <!-- ✅ Domaine de recherche -->
+        <div class="md:col-span-2" *ngIf="utilisateur.secteur">  <!-- ✅ -->
+  <p class="text-xs text-gray-400 mb-0.5">Domaine de recherche</p>
+  <span class="text-xs px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full font-medium">
+    {{ utilisateur.secteur }}  <!-- ✅ -->
+  </span>
+</div>
+
+      </div>
+    </div>
+
+    <!-- Compétences -->
+    <div *ngIf="competencesList.length > 0">
+      <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Compétences</h6>
+      <div class="flex flex-wrap gap-3 mt-3">
+        <span *ngFor="let c of competencesList"
+          class="text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">
+          {{ c }}
+        </span>
+      </div>
+    </div>
+
+  </div>
+</ng-container>
+
+                <!-- ENTREPRISE -->
+                <ng-container *ngIf="role === 'ENTREPRISE'">
+                  <div class="space-y-6">
+                    <div>
+                      <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">À propos de l'entreprise</h5>
+                      <p class="mt-3 text-sm text-gray-500 dark:text-gray-300">
+                        Entreprise dans le secteur <strong>{{ utilisateur.secteur || '—' }}</strong>.
+                      </p>
+                    </div>
+                    <div>
+                      <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Informations</h6>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-gray-50 dark:bg-neutral-700/40 rounded-xl border border-gray-200 dark:border-zinc-700">
+                        <div class="md:col-span-2">
+                          <p class="text-xs text-gray-400 mb-0.5">Nom de l'entreprise</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.nomEntreprise }}</p>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Responsable</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.prenom }} {{ utilisateur.nom }}</p>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Email</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.email }}</p>
+                        </div>
+                        <div *ngIf="utilisateur.secteur">
+                          <p class="text-xs text-gray-400 mb-0.5">Secteur</p>
+                          <span class="text-xs px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full font-medium">
+                            {{ utilisateur.secteur }}
+                          </span>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Statut</p>
+                          <span [class]="utilisateur.etat
+                            ? 'text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-medium'
+                            : 'text-xs px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full font-medium'">
+                            {{ utilisateur.etat ? 'Approuvé' : "En attente d'approbation" }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- INSTITUTION -->
+                <ng-container *ngIf="role === 'INSTITUTION'">
+                  <div class="space-y-6">
+                    <div>
+                      <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">À propos de l'institution</h5>
+                    </div>
+                    <div>
+                      <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Informations</h6>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-gray-50 dark:bg-neutral-700/40 rounded-xl border border-gray-200 dark:border-zinc-700">
+                        <div class="md:col-span-2">
+                          <p class="text-xs text-gray-400 mb-0.5">Nom de la faculté</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.nomFaculte }}</p>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Responsable</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.prenom }} {{ utilisateur.nom }}</p>
+                        </div>
+                        <div>
+                          <p class="text-xs text-gray-400 mb-0.5">Email</p>
+                          <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.email }}</p>
+                        </div>
+                        <!-- Téléphone — commun à tous -->
+<div *ngIf="utilisateur.telephone">
+  <p class="text-xs text-gray-400 mb-0.5">Téléphone</p>
+  <p class="text-sm font-medium text-gray-800 dark:text-white">{{ utilisateur.telephone }}</p>
+</div>
+                      </div>
+
+                    </div>
+                  </div>
+                </ng-container>
+
+              </div>
+
+              <!-- ── Onglet Paramètres ── -->
+              <div class="p-6" *ngIf="activeTab === 'settings'">
+
+  <!-- Message succès -->
+  <div *ngIf="saveSuccess"
+    class="mb-4 px-4 py-3 bg-green-100 text-green-700 rounded-lg text-sm font-medium">
+    ✅ Profil mis à jour avec succès !
+  </div>
+
+  <!-- Message erreur -->
+  <div *ngIf="saveError"
+    class="mb-4 px-4 py-3 bg-red-100 text-red-700 rounded-lg text-sm font-medium">
+    {{ saveError }}
+  </div>
+
+  <!-- ── Formulaire ÉTUDIANT ── -->
+  <ng-container *ngIf="role === 'ETUDIANT'">
+    <h5 class="mb-5 text-gray-900 font-semibold text-17 dark:text-gray-50">Mon Profil</h5>
+    <div class="grid grid-cols-12 gap-5">
+
+      <div class="col-span-12 lg:col-span-6">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Prénom</label>
+        <input type="text" [(ngModel)]="formData.prenom"
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+      </div>
+
+      <div class="col-span-12 lg:col-span-6">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Nom</label>
+        <input type="text" [(ngModel)]="formData.nom"
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+      </div>
+
+      <div class="col-span-12 lg:col-span-6">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Niveau d'études</label>
+        <select [(ngModel)]="formData.niveau"
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-neutral-800 dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+          <option value="">-- Choisir --</option>
+          <option value="Licence 1">Licence 1</option>
+          <option value="Licence 2">Licence 2</option>
+          <option value="Licence 3">Licence 3</option>
+          <option value="Master 1">Master 1</option>
+          <option value="Master 2">Master 2</option>
+          <option value="Doctorat">Doctorat</option>
+          <option value="Ingénierie">Ingénierie</option>
+        </select>
+      </div>
+
+      <div class="col-span-12 lg:col-span-6">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Spécialité</label>
+        <input type="text" [(ngModel)]="formData.specialite"
+          placeholder="ex: Génie Logiciel, Data Science..."
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+      </div>
+
+      <div class="col-span-12">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Faculté / Institution</label>
+        <input type="text" [(ngModel)]="formData.faculte"
+          placeholder="ex: ESPRIT, FST, ENSI..."
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+      </div>
+      <!-- Téléphone — commun à tous -->
+<div class="col-span-12">
+  <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">
+    Téléphone
+    <span class="text-gray-400 font-normal">(optionnel)</span>
+  </label>
+  <input type="tel" [(ngModel)]="formData.telephone"
+    placeholder="+216 XX XXX XXX"
+    class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+</div>
+    </div>
+  </ng-container>
+
+  <!-- ── Formulaire CANDIDAT ── -->
+  <!-- ── Formulaire CANDIDAT ── -->
+<ng-container *ngIf="role === 'CANDIDAT'">
+  <h5 class="mb-5 text-gray-900 font-semibold text-17 dark:text-gray-50">Mon Profil</h5>
+  <div class="grid grid-cols-12 gap-5">
+
+    <div class="col-span-12 lg:col-span-6">
+      <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Prénom</label>
+      <input type="text" [(ngModel)]="formData.prenom"
+        class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm">
+    </div>
+
+    <div class="col-span-12 lg:col-span-6">
+      <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Nom</label>
+      <input type="text" [(ngModel)]="formData.nom"
+        class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm">
+    </div>
+
+    <!-- ✅ Domaine de recherche -->
+    <div class="col-span-12">
+      <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Secteur</label>
+      <select [(ngModel)]="formData.secteur"
+        class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-neutral-800 dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+        <option value="">-- Choisir un domaine --</option>
+        <option value="informatique">Informatique / Développement</option>
+        <option value="marketing">Marketing / Communication</option>
+        <option value="finance">Finance / Comptabilité</option>
+        <option value="commerce">Commerce / Vente</option>
+        <option value="rh">Ressources Humaines</option>
+        <option value="genie civil">Génie Civil / BTP</option>
+        <option value="genie mecanique">Génie Mécanique / Industrie</option>
+        <option value="genie electrique">Génie Électrique / Électronique</option>
+        <option value="biologie">Biologie / Santé</option>
+        <option value="droit">Droit / Juridique</option>
+      </select>
+    </div>
+
+    <!-- ✅ Compétences -->
+    <div class="col-span-12">
+      <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">
+        Compétences
+        <span class="text-gray-400 font-normal">(séparées par des virgules)</span>
+      </label>
+      <input type="text" [(ngModel)]="formData.competences"
+        placeholder="ex: Marketing digital, SEO, Excel..."
+        class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm">
+    </div>
+    <!-- Téléphone — commun à tous -->
+<div class="col-span-12">
+  <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">
+    Téléphone
+    <span class="text-gray-400 font-normal">(optionnel)</span>
+  </label>
+  <input type="tel" [(ngModel)]="formData.telephone"
+    placeholder="+216 XX XXX XXX"
+    class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+</div>
+  </div>
+</ng-container>
+
+  <!-- ── Formulaire ENTREPRISE ── -->
+  <ng-container *ngIf="role === 'ENTREPRISE'">
+    <h5 class="mb-5 text-gray-900 font-semibold text-17 dark:text-gray-50">Mon Entreprise</h5>
+    <div class="grid grid-cols-12 gap-5">
+
+      <div class="col-span-12">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Nom de l'entreprise</label>
+        <input type="text" [(ngModel)]="formData.nomEntreprise"
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm">
+      </div>
+
+      <div class="col-span-12">
+        <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">Secteur d'activité</label>
+        <input type="text" [(ngModel)]="formData.secteur"
+          placeholder="ex: Informatique, Finance, Santé..."
+          class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm">
+      </div>
+      <!-- Téléphone — commun à tous -->
+<div class="col-span-12">
+  <label class="text-sm text-gray-900 dark:text-gray-50 block mb-1">
+    Téléphone
+    <span class="text-gray-400 font-normal">(optionnel)</span>
+  </label>
+  <input type="tel" [(ngModel)]="formData.telephone"
+    placeholder="+216 XX XXX XXX"
+    class="w-full mt-1 text-gray-700 border rounded border-gray-200 dark:bg-transparent dark:border-neutral-600 px-3 py-2 text-sm focus:outline-none focus:border-violet-400">
+</div>
+    </div>
+  </ng-container>
+
+  <!-- Bouton sauvegarder -->
+  <div class="mt-8 text-right" *ngIf="role !== 'INSTITUTION'">
+    <button (click)="sauvegarderProfil()"
+      [disabled]="saving"
+      class="px-8 py-2.5 text-white bg-violet-500 hover:bg-violet-600 disabled:opacity-60 rounded-lg font-medium text-sm transition">
+      {{ saving ? 'Enregistrement...' : 'Sauvegarder' }}
+    </button>
+  </div>
+<!-- ── Section Changer mot de passe ── -->
+<div class="mt-8 pt-6 border-t border-gray-100 dark:border-neutral-600">
+
+  <button (click)="togglePasswordSection()"
+    class="flex items-center gap-2 text-sm font-medium text-violet-600
+           hover:text-violet-800 transition">
+    <span>🔑</span>
+    {{ showPasswordSection ? 'Annuler' : 'Changer mon mot de passe' }}
+  </button>
+
+  <div *ngIf="showPasswordSection" class="mt-5 space-y-4 max-w-md">
+
+    <!-- Message succès -->
+    <div *ngIf="pwdMessage && !pwdError"
+      class="px-4 py-3 bg-green-50 text-green-700 rounded-lg text-sm">
+      {{ pwdMessage }}
+    </div>
+
+    <!-- Message erreur -->
+    <div *ngIf="pwdError"
+      class="px-4 py-3 bg-red-50 text-red-700 rounded-lg text-sm">
+      ❌ {{ pwdError }}
+    </div>
+
+    <!-- Étape 1 : envoyer OTP -->
+    <div *ngIf="!otpSent">
+      <p class="text-sm text-gray-500 mb-3">
+        Un code de vérification à 6 chiffres sera envoyé à
+        <strong>{{ utilisateur?.email }}</strong>.
+      </p>
+      <button (click)="sendOtp()" [disabled]="sendingOtp"
+        class="px-6 py-2 bg-violet-500 hover:bg-violet-600 text-white
+               text-sm rounded-lg font-medium transition disabled:opacity-60">
+        {{ sendingOtp ? 'Envoi en cours...' : 'Envoyer le code' }}
+      </button>
+    </div>
+
+    <!-- Étape 2 : saisir OTP + nouveau mdp -->
+    <div *ngIf="otpSent" class="space-y-4">
+
+      <!-- Code OTP -->
+      <div>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-200 block mb-1">
+          Code reçu par email
+        </label>
+        <input type="text" [(ngModel)]="otpInput"
+          maxlength="6" placeholder="Ex : 482913"
+          class="w-full px-3 py-2 border rounded-lg text-sm tracking-widest
+                 text-center font-mono focus:outline-none focus:border-violet-400
+                 border-gray-200 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white">
+      </div>
+
+      <!-- Nouveau mot de passe -->
+      <div>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-200 block mb-1">
+          Nouveau mot de passe
+        </label>
+        <input type="password" [(ngModel)]="newPassword"
+          placeholder="Minimum 6 caractères"
+          class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none
+                 focus:border-violet-400 border-gray-200
+                 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white">
+      </div>
+
+      <!-- Confirmer mot de passe -->
+      <div>
+        <label class="text-sm font-medium text-gray-700 dark:text-gray-200 block mb-1">
+          Confirmer le mot de passe
+        </label>
+        <input type="password" [(ngModel)]="confirmPassword"
+          placeholder="Répétez le nouveau mot de passe"
+          class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none
+                 focus:border-violet-400 border-gray-200
+                 dark:bg-neutral-800 dark:border-neutral-600 dark:text-white">
+        <!-- Indicateur correspondance -->
+        <p *ngIf="confirmPassword && newPassword !== confirmPassword"
+          class="text-xs text-red-500 mt-1">
+          Les mots de passe ne correspondent pas
+        </p>
+        <p *ngIf="confirmPassword && newPassword === confirmPassword && newPassword.length >= 6"
+          class="text-xs text-green-500 mt-1">
+          ✓ Les mots de passe correspondent
+        </p>
+      </div>
+
+      <!-- Boutons -->
+      <div class="flex gap-3 pt-1">
+        <button (click)="changePassword()"
+          [disabled]="changingPwd || newPassword !== confirmPassword || newPassword.length < 6"
+          class="flex-1 py-2 bg-violet-500 hover:bg-violet-600 text-white text-sm
+                 rounded-lg font-medium transition disabled:opacity-50">
+          {{ changingPwd ? 'Modification...' : 'Confirmer le changement' }}
+        </button>
+
+        <!-- Renvoyer le code -->
+        <button (click)="sendOtp()"
+          [disabled]="otpCooldown > 0 || sendingOtp"
+          class="px-4 py-2 border border-gray-300 text-gray-600 text-sm
+                 rounded-lg hover:bg-gray-50 transition disabled:opacity-50">
+          {{ otpCooldown > 0 ? 'Renvoyer (' + otpCooldown + 's)' : 'Renvoyer' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<app-footer></app-footer>
+</body>
+
+<!-- Mirrored from themesdesign.in/jobcy-tailwind/layout/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 09 Feb 2026 08:18:27 GMT -->
+</html>

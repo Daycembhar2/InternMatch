@@ -1,0 +1,182 @@
+/* ══════════════════════════════════════════════
+   KEYFRAMES GLOBAUX
+══════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* ══════════════════════════════════════════════
+   CARTE PRINCIPALE
+══════════════════════════════════════════════ */
+.auth-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════
+   ZONE LOGO — fond clair animé
+══════════════════════════════════════════════ */
+.logo-zone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px 36px;
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 60%, #ddd6fe 100%);
+  overflow: hidden;
+}
+
+/* Bulles internes à la zone logo */
+.logo-zone-circle {
+  position: absolute;
+  border-radius: 50%;
+  animation: lzPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+.lz-c1 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, rgba(124,58,237,0.13), transparent);
+  top: -80px; left: -60px;
+  animation-delay: 0s;
+}
+.lz-c2 {
+  width: 160px; height: 160px;
+  background: radial-gradient(circle, rgba(139,92,246,0.12), transparent);
+  bottom: -40px; right: -40px;
+  animation-delay: 1.2s;
+}
+.lz-c3 {
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(167,139,250,0.18), transparent);
+  top: 20px; right: 30px;
+  animation-delay: 2s;
+}
+
+@keyframes lzPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%       { transform: scale(1.15); opacity: 1;   }
+}
+
+/* ══════════════════════════════════════════════
+   LOGO
+══════════════════════════════════════════════ */
+.signin-logo-wrapper {
+  position: relative;
+  z-index: 2;
+  display: block;
+  animation: signinLogoEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.signin-logo {
+  animation: signinLogoFloat 4s ease-in-out 1s infinite;
+  filter: drop-shadow(0 6px 20px rgba(124, 58, 237, 0.2));
+  transition: filter 0.3s ease;
+}
+
+.signin-logo:hover {
+  filter: drop-shadow(0 10px 30px rgba(124, 58, 237, 0.4));
+}
+
+@keyframes signinLogoEntrance {
+  from { opacity: 0; transform: translateY(-16px) scale(0.92); }
+  to   { opacity: 1; transform: translateY(0)      scale(1);   }
+}
+
+@keyframes signinLogoFloat {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-7px); }
+}
+
+/* ══════════════════════════════════════════════
+   ZONE FORMULAIRE — fond violet
+══════════════════════════════════════════════ */
+.form-zone {
+  background: #6d28d9;
+  padding: 36px 48px 40px;
+}
+
+/* ══════════════════════════════════════════════
+   BULLES FOND DE PAGE
+══════════════════════════════════════════════ */
+.signin-circle {
+  position: absolute;
+  border-radius: 50%;
+  animation: signinPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+.signin-circle-1 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(124,58,237,0.15), transparent);
+  top: -120px; left: -100px;
+  animation-delay: 0s;
+}
+.signin-circle-2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(91,33,182,0.12), transparent);
+  bottom: -80px; right: -60px;
+  animation-delay: 1s;
+}
+.signin-circle-3 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(139,92,246,0.1), transparent);
+  top: 50%; left: 3%;
+  animation-delay: 2s;
+}
+.signin-circle-4 {
+  width: 140px; height: 140px;
+  background: radial-gradient(circle, rgba(167,139,250,0.14), transparent);
+  top: 8%; right: 6%;
+  animation-delay: 1.5s;
+}
+
+@keyframes signinPulse {
+  0%, 100% { transform: scale(1);    opacity: 0.8; }
+  50%       { transform: scale(1.12); opacity: 1;   }
+}
+
+/* ══════════════════════════════════════════════
+   ANIMATIONS FORMULAIRE
+══════════════════════════════════════════════ */
+.auth-right-panel {
+  opacity: 0;
+  animation: slideInRight 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+}
+
+.title-anim {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease 0.4s forwards;
+}
+
+.form-field {
+  opacity: 0;
+  animation: fadeInUp 0.45s ease forwards;
+  animation-delay: calc(0.5s + var(--i, 0) * 0.1s);
+}
+
+/* ══════════════════════════════════════════════
+   ROLE SELECT
+══════════════════════════════════════════════ */
+.role-select {
+  position: relative;
+}
+
+.role-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  pointer-events: none;
+  z-index: 1;
+}

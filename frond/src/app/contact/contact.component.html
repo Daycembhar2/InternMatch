@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Contact — InternMatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta content="Plateforme de mise en relation étudiants et entreprises" name="description" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+
+<body class="bg-white dark:bg-neutral-800">
+    <app-header></app-header>
+    <div class="main-content">
+        <div class="page-content">
+
+            <!-- Bannière -->
+            <section class="pt-28 lg:pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 dark:bg-neutral-900 bg-[url('../images/home/page-title.html')] bg-center bg-cover relative">
+                <div class="container mx-auto">
+                    <div class="grid">
+                        <div class="col-span-12">
+                            <div class="text-center text-white">
+                                <h3 class="mb-4 text-[26px]">Contactez-nous</h3>
+                                <div class="page-next">
+                                    <nav class="inline-block" aria-label="Fil d'Ariane">
+                                        <ol class="flex justify-center text-sm font-medium uppercase">
+                                            <li><a (click)="goToHome()" class="cursor-pointer">Accueil</a></li>
+                                            <li><i class="bx bxs-chevron-right align-middle px-2.5"></i><a href="javascript:void(0)">Blog</a></li>
+                                            <li class="active" aria-current="page"><i class="bx bxs-chevron-right align-middle px-2.5"></i>Contact</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+            </section>
+
+            <!-- Contenu principal -->
+            <section class="pt-16">
+                <div class="container mx-auto">
+                    <div class="grid items-center grid-cols-12 mt-5 lg:gap-8 gap-y-8">
+
+                        <!-- Formulaire -->
+                        <div class="col-span-12 lg:col-span-6">
+                            <div class="mt-4">
+                                <h3 class="mb-2 text-3xl text-gray-900 dark:text-white">Prenez contact avec nous</h3>
+                                <p class="text-gray-500 dark:text-gray-300">
+                                    Commencez à collaborer avec InternMatch — la plateforme qui vous offre tout ce dont vous avez besoin pour développer votre visibilité, générer du trafic et créer des connexions durables.
+                                </p>
+
+                                <form [formGroup]="contactForm" (ngSubmit)="sendmessage()" class="mt-4 contact-form">
+
+                                    <!-- Chargement -->
+                                    <div *ngIf="isLoading" class="text-center my-4">
+                                        <i class="uil uil-spinner-alt animate-spin text-3xl text-violet-500"></i>
+                                        <p>Envoi en cours...</p>
+                                    </div>
+
+                                    <!-- Message de succès -->
+                                    <div *ngIf="successMessage" class="mb-4 p-3 bg-green-100 text-green-800 rounded">
+                                        {{ successMessage }}
+                                    </div>
+
+                                    <!-- Message d'erreur -->
+                                    <div *ngIf="errorMessage" class="mb-4 p-3 bg-red-100 text-red-800 rounded">
+                                        {{ errorMessage }}
+                                    </div>
+
+                                    <div class="grid grid-cols-12 gap-5">
+
+                                        <!-- Nom -->
+                                        <div class="col-span-12">
+                                            <div class="mb-3">
+                                                <label for="nom" class="text-gray-900 dark:text-gray-50">Nom complet</label>
+                                                <input
+                                                    type="text"
+                                                    id="nom"
+                                                    formControlName="nom"
+                                                    class="w-full mt-1 rounded border-gray-100/50 placeholder:text-sm placeholder:text-gray-400 dark:bg-transparent dark:border-gray-800 focus:ring-0 focus:ring-offset-0 dark:text-gray-200"
+                                                    placeholder="Entrez votre nom complet"
+                                                    [ngClass]="{'border-red-500': submitted && f['nom']?.errors}"
+                                                >
+                                                <div *ngIf="submitted && f['nom']?.errors" class="text-red-500 text-sm mt-1">
+                                                    <div *ngIf="f['nom']?.errors?.['required']">Le nom est obligatoire.</div>
+                                                    <div *ngIf="f['nom']?.errors?.['minlength']">Le nom doit contenir au moins 3 caractères.</div>
+                                                    <div *ngIf="f['nom']?.errors?.['pattern']">Le nom ne peut contenir que des lettres.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Email -->
+                                        <div class="col-span-12">
+                                            <div class="mb-3">
+                                                <label for="email" class="text-gray-900 dark:text-gray-50">Adresse e-mail</label>
+                                                <input
+                                                    type="email"
+                                                    id="email"
+                                                    formControlName="email"
+                                                    class="w-full mt-1 rounded border-gray-100/50 placeholder:text-sm placeholder:text-gray-400 dark:bg-transparent dark:border-gray-800 focus:ring-0 focus:ring-offset-0 dark:text-gray-200"
+                                                    placeholder="Entrez votre adresse e-mail"
+                                                    [ngClass]="{'border-red-500': submitted && f['email']?.errors}"
+                                                >
+                                                <div *ngIf="submitted && f['email']?.errors" class="text-red-500 text-sm mt-1">
+                                                    <div *ngIf="f['email']?.errors?.['required']">L'adresse e-mail est obligatoire.</div>
+                                                    <div *ngIf="f['email']?.errors?.['email']">Veuillez saisir une adresse e-mail valide.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Sujet -->
+                                        <div class="col-span-12">
+                                            <div class="mb-3">
+                                                <label for="subject" class="text-gray-900 dark:text-gray-50">Objet</label>
+                                                <input
+                                                    type="text"
+                                                    id="subject"
+                                                    formControlName="subject"
+                                                    class="w-full mt-1 rounded border-gray-100/50 placeholder:text-sm placeholder:text-gray-400 dark:bg-transparent dark:border-gray-800 focus:ring-0 focus:ring-offset-0 dark:text-gray-200"
+                                                    placeholder="Entrez l'objet de votre message"
+                                                    [ngClass]="{'border-red-500': submitted && f['subject']?.errors}"
+                                                >
+                                                <div *ngIf="submitted && f['subject']?.errors" class="text-red-500 text-sm mt-1">
+                                                    <div *ngIf="f['subject']?.errors?.['required']">L'objet est obligatoire.</div>
+                                                    <div *ngIf="f['subject']?.errors?.['minlength']">L'objet doit contenir au moins 3 caractères.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Message -->
+                                        <div class="col-span-12">
+                                            <div class="mb-3">
+                                                <label for="comments" class="text-gray-900 dark:text-gray-50">Message</label>
+                                                <textarea
+                                                    id="comments"
+                                                    formControlName="comments"
+                                                    class="w-full mt-1 rounded border-gray-100/50 placeholder:text-sm placeholder:text-gray-400 dark:bg-transparent dark:border-gray-800 focus:ring-0 focus:ring-offset-0 dark:text-gray-200"
+                                                    placeholder="Rédigez votre message ici..."
+                                                    [ngClass]="{'border-red-500': submitted && f['comments']?.errors}"
+                                                    rows="4"
+                                                ></textarea>
+                                                <div *ngIf="submitted && f['comments']?.errors" class="text-red-500 text-sm mt-1">
+                                                    <div *ngIf="f['comments']?.errors?.['required']">Le message est obligatoire.</div>
+                                                    <div *ngIf="f['comments']?.errors?.['minlength']">Le message doit contenir au moins 10 caractères.</div>
+                                                </div>
+
+                                                <!-- Bouton IA -->
+                                                <div class="mt-2">
+                                                    <button type="button" (click)="ameliorerMessage()"
+                                                        [disabled]="iaLoading || !contactForm.get('comments')?.value?.trim()"
+                                                        class="flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm rounded-lg font-medium transition disabled:opacity-50">
+                                                        <span *ngIf="!iaLoading">✨ Améliorer avec l'IA</span>
+                                                        <span *ngIf="iaLoading">
+                                                            <span class="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-1"></span>
+                                                            Amélioration en cours...
+                                                        </span>
+                                                    </button>
+                                                </div>
+
+                                                <!-- Résultat IA -->
+                                                <div *ngIf="messageAmeliore"
+                                                    class="mt-4 p-4 bg-violet-50 dark:bg-neutral-700 border border-violet-200 rounded-xl">
+                                                    <div class="flex justify-between items-center mb-2">
+                                                        <p class="text-sm font-semibold text-violet-700 dark:text-violet-300">
+                                                            ✨ Version améliorée par l'IA
+                                                        </p>
+                                                        <button (click)="utiliserMessageIA()"
+                                                            class="text-xs px-3 py-1 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition">
+                                                            Utiliser cette version
+                                                        </button>
+                                                    </div>
+                                                    <p class="text-sm text-gray-700 dark:text-gray-200 whitespace-pre-line">
+                                                        {{ messageAmeliore }}
+                                                    </p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- Bouton d'envoi -->
+                                    <div class="text-right mt-6">
+                                        <button
+                                            type="submit"
+                                            [disabled]="contactForm.invalid || isLoading"
+                                            class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 ...">
+                                            Envoyer le message <i class="uil uil-message ms-1"></i>
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Fin formulaire -->
+
+                        <!-- Informations de contact -->
+                        <div class="col-span-12 lg:col-span-5 lg:ml-20">
+                            <div class="text-center">
+                                <img src="assets/images/contact.png" alt="Illustration contact" class="img-fluid">
+                            </div>
+                            <div class="pt-3 mt-4">
+
+                                <!-- Adresse -->
+                                <div class="flex items-center mt-2 text-gray-500">
+                                    <div class="group-data-[theme-color=violet]:text-violet-500 shrink-0 text-22">
+                                        <i class="uil uil-map-marker"></i>
+                                    </div>
+                                    <div class="ltr:ml-2 rtl:mr-2">
+                                        <p class="mb-0 dark:text-gray-300">Tunis, Tunisie</p>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="flex items-center mt-2 text-gray-500">
+                                    <div class="group-data-[theme-color=violet]:text-violet-500 shrink-0 text-22">
+                                        <i class="uil uil-envelope"></i>
+                                    </div>
+                                    <div class="ltr:ml-2 rtl:mr-2">
+                                        <p class="mb-0 dark:text-gray-300">contactus@InternMatch.com</p>
+                                    </div>
+                                </div>
+
+                                <!-- Téléphone -->
+                                <div class="flex items-center mt-2 text-gray-500">
+                                    <div class="group-data-[theme-color=violet]:text-violet-500 shrink-0 text-22">
+                                        <i class="uil uil-phone-alt"></i>
+                                    </div>
+                                    <div class="ltr:ml-2 rtl:mr-2">
+                                        <p class="mb-0 dark:text-gray-300">(+216) 71 445 321</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Fin informations de contact -->
+
+                    </div>
+                </div>
+
+                <!-- Carte Google Maps -->
+                <div class="pt-20">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102239.59408218748!2d10.060876351225257!3d36.79485453007146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd337f5e7ef543%3A0xd671924e714a0275!2sTunis!5e0!3m2!1sfr!2stn!4v1772407895064!5m2!1sfr!2stn"
+                        height="350"
+                        style="border:0; width:100%;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Localisation InternMatch — Tunis, Tunisie">
+                    </iframe>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+    <app-footer></app-footer>
+</body>
+</html>

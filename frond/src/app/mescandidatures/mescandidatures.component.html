@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+<head>
+  <meta charset="utf-8" />
+  <title>Mes Offres | InternMatch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+<body class="bg-white dark:bg-neutral-800">
+        
+<app-header></app-header>
+
+<section class="pt-28 lg:pt-44 pb-28 bg-violet-500 dark:bg-neutral-900 bg-center bg-cover relative">
+  <div class="container mx-auto text-center">
+    
+    <h3 class="text-3xl font-semibold text-white mb-2">
+      Mes Candidatures
+    </h3>
+    
+    <p class="text-white">
+      Suivez l'état de toutes vos candidatures en temps réel
+    </p>
+
+  </div>
+</section>
+
+<section class="py-10 dark:bg-neutral-800">
+  <div class="container mx-auto px-4">
+
+    <!-- Compteurs -->
+    <div class="grid grid-cols-3 gap-4 mb-8 max-w-lg mx-auto">
+      <div class="text-center p-4 bg-white dark:bg-neutral-700 rounded-xl shadow">
+        <div class="text-2xl font-bold text-yellow-600">{{ nbEnAttente }}</div>
+        <div class="text-xs text-gray-500 mt-1">En attente</div>
+      </div>
+      <div class="text-center p-4 bg-white dark:bg-neutral-700 rounded-xl shadow">
+        <div class="text-2xl font-bold text-green-600">{{ nbAcceptees }}</div>
+        <div class="text-xs text-gray-500 mt-1">Acceptées</div>
+      </div>
+      <div class="text-center p-4 bg-white dark:bg-neutral-700 rounded-xl shadow">
+        <div class="text-2xl font-bold text-red-600">{{ nbRefusees }}</div>
+        <div class="text-xs text-gray-500 mt-1">Refusées</div>
+      </div>
+    </div>
+
+    <!-- Filtres -->
+    <div class="flex justify-center flex-wrap gap-3 mb-8">
+      <button (click)="setFilter('all')"
+        [ngClass]="activeFilter==='all' ?
+          'bg-violet-600 text-white' :
+          'bg-white text-gray-600 border border-gray-300 dark:bg-neutral-700 dark:text-white'"
+        class="px-5 py-2 rounded-full text-sm font-medium transition">
+        Toutes ({{ candidatures.length }})
+      </button>
+      <button (click)="setFilter('EN_ATTENTE')"
+        [ngClass]="activeFilter==='EN_ATTENTE' ?
+          'bg-yellow-500 text-white' :
+          'bg-white text-gray-600 border border-gray-300 dark:bg-neutral-700 dark:text-white'"
+        class="px-5 py-2 rounded-full text-sm font-medium transition">
+        ⏳ En attente ({{ nbEnAttente }})
+      </button>
+      <button (click)="setFilter('ACCEPTE')"
+        [ngClass]="activeFilter==='ACCEPTE' ?
+          'bg-green-600 text-white' :
+          'bg-white text-gray-600 border border-gray-300 dark:bg-neutral-700 dark:text-white'"
+        class="px-5 py-2 rounded-full text-sm font-medium transition">
+        ✓ Acceptées ({{ nbAcceptees }})
+      </button>
+      <button (click)="setFilter('REFUSE')"
+        [ngClass]="activeFilter==='REFUSE' ?
+          'bg-red-600 text-white' :
+          'bg-white text-gray-600 border border-gray-300 dark:bg-neutral-700 dark:text-white'"
+        class="px-5 py-2 rounded-full text-sm font-medium transition">
+        ✗ Refusées ({{ nbRefusees }})
+      </button>
+    </div>
+
+    <!-- Spinner -->
+    <div *ngIf="loading" class="text-center py-10">
+      <div class="inline-block animate-spin rounded-full h-10 w-10
+                  border-b-2 border-violet-500"></div>
+    </div>
+
+    <!-- Cards candidatures -->
+    <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div *ngFor="let c of filteredCandidatures"
+        class="bg-white dark:bg-neutral-700 rounded-xl shadow p-5
+               border border-gray-100 dark:border-neutral-600
+               hover:-translate-y-1 transition-all duration-300">
+
+        <!-- En-tête : icône statut + titre offre -->
+        <div class="flex justify-between items-start mb-3">
+          <div class="flex-1">
+            <h4 class="font-semibold text-gray-800 dark:text-white text-base">
+              {{ c.offre?.titre ?? 'Offre supprimée' }}
+            </h4>
+            <p class="text-sm text-gray-500 mt-0.5">
+              {{ c.offre?.entreprise?.nom ?? '' }}
+              {{ c.offre?.localisation ? '· ' + c.offre.localisation : '' }}
+            </p>
+          </div>
+          <span class="text-2xl ml-2">{{ getStatutIcon(c.statut) }}</span>
+        </div>
+
+        <!-- Infos offre -->
+        <div class="flex flex-wrap gap-2 mb-3">
+          <span *ngIf="c.offre?.type"
+            class="text-xs px-2 py-0.5 bg-violet-100 text-violet-700 rounded-full">
+            {{ c.offre.type }}
+          </span>
+          <span *ngIf="c.offre?.time"
+            class="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+            {{ c.offre.time }} semaines
+          </span>
+        </div>
+
+        <!-- Date postulation -->
+        <p class="text-xs text-gray-400 mb-3">
+          Postulé le {{ c.datePostulation | date:'dd/MM/yyyy' }}
+        </p>
+
+        <!-- Statut badge -->
+        <div class="flex items-center justify-between">
+          <span [ngClass]="'px-3 py-1 rounded-full text-xs font-semibold ' + getStatutClass(c.statut)">
+            {{ getStatutLabel(c.statut) }}
+          </span>
+          <a *ngIf="c.cv" [href]="'assets/cv/uploads/' + c.cv"
+            target="_blank"
+            class="text-violet-600 hover:underline text-xs font-medium">
+            Voir mon CV
+          </a>
+        </div>
+
+        <!-- Message lettre de motivation (réduit) -->
+        <div *ngIf="c.lettreMotivation"
+          class="mt-3 p-3 bg-gray-50 dark:bg-neutral-600 rounded-lg">
+          <p class="text-xs text-gray-500 dark:text-gray-300 line-clamp-2">
+            {{ c.lettreMotivation }}
+          </p>
+        </div>
+        <!-- Bouton retrait — seulement si EN_ATTENTE -->
+<div *ngIf="c.statut?.toUpperCase() === 'EN_ATTENTE'"
+  class="mt-3 pt-3 border-t border-gray-100 dark:border-neutral-600">
+  <button (click)="retirerCandidature(c)"
+    class="w-full py-1.5 text-xs font-medium text-red-600 border border-red-200
+           rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition">
+    🗑 Retirer ma candidature
+  </button>
+</div>
+        <!-- Feedback si ACCEPTE et pas encore noté -->
+<div *ngIf="c.statut?.toUpperCase() === 'ACCEPTE' && !c.note"
+  class="mt-4 pt-4 border-t border-gray-100 dark:border-neutral-600">
+  <p class="text-xs font-semibold text-gray-700 dark:text-white mb-2">
+    ⭐ Donnez votre avis sur ce stage
+  </p>
+
+  <!-- Étoiles -->
+  <div class="flex gap-1 mb-2">
+  <span *ngFor="let s of [1,2,3,4,5]"
+    (click)="c.noteTemp = s"
+    (mouseenter)="setHover(c, s)"
+    (mouseleave)="clearHover(c)"
+    class="cursor-pointer text-xl transition select-none"
+    [class.text-yellow-400]="s <= (c.noteHover || c.noteTemp || 0)"
+    [class.text-gray-300]="s > (c.noteHover || c.noteTemp || 0)">
+    ★
+  </span>
+</div>
+
+  <!-- Commentaire -->
+  <textarea [(ngModel)]="c.commentaireTemp"
+    placeholder="Votre commentaire sur cette expérience..."
+    rows="2"
+    class="w-full border rounded px-3 py-2 text-xs text-gray-700
+           dark:bg-neutral-600 dark:text-white dark:border-neutral-500
+           focus:outline-none focus:border-violet-400 mb-2">
+  </textarea>
+
+  <!-- Bouton -->
+  <button (click)="envoyerFeedback(c)"
+    [disabled]="!c.noteTemp"
+    class="w-full py-1.5 bg-violet-600 text-white text-xs rounded-lg
+           hover:bg-violet-700 disabled:opacity-50 transition font-medium">
+    Envoyer mon avis
+  </button>
+</div>
+
+<!-- Feedback déjà donné -->
+<div *ngIf="c.note"
+  class="mt-4 pt-4 border-t border-gray-100 dark:border-neutral-600">
+  <p class="text-xs font-semibold text-gray-700 dark:text-white mb-1">
+    Mon avis
+  </p>
+  <div class="text-yellow-400 text-sm mb-1">
+    <span *ngFor="let s of [1,2,3,4,5]">
+      {{ s <= c.note ? '★' : '☆' }}
+    </span>
+  </div>
+  <p class="text-xs text-gray-500 dark:text-gray-300 italic">
+    {{ c.commentaire }}
+  </p>
+</div>
+      </div>
+
+      <!-- Aucune candidature -->
+      <div *ngIf="filteredCandidatures.length === 0"
+        class="col-span-3 text-center py-16">
+        <div class="text-5xl mb-4">📭</div>
+        <p class="text-gray-400 text-lg">Aucune candidature trouvée</p>
+        <p class="text-gray-400 text-sm mt-1">
+          Commencez par postuler à des offres
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<app-footer></app-footer>
+    </body>
+</html>

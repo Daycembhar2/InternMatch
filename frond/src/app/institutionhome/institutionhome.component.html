@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-mode="light" class="scroll-smooth group" data-theme-color="violet">
+<head>
+  <meta charset="utf-8" />
+  <title>Espace Institution | InternMatch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+<body class="bg-white dark:bg-neutral-800">
+<div id="wrapper" class="fullwidth">
+  <app-header></app-header>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DASHBOARD
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView === 'dashboard'">
+    <section class="relative group-data-[theme-color=violet]:bg-violet-500/20 py-28 dark:bg-violet-500/20">
+      <div class="container mx-auto">
+        <div class="grid items-center grid-cols-12 gap-10">
+
+          <!-- Texte gauche -->
+          <div class="col-span-12 lg:col-span-7">
+            <h6 class="mb-3 text-sm text-gray-900 uppercase dark:text-gray-50">
+              Espace Institution
+            </h6>
+            <h1 class="mb-3 text-5xl font-semibold leading-tight text-gray-900 dark:text-gray-50">
+              Bienvenue sur
+              <span class="font-bold text-violet-500">InternMatch</span>
+            </h1>
+            <p class="text-lg font-light text-gray-500 dark:text-gray-300">
+              Gérez vos étudiants, suivez leurs candidatures et validez leurs stages en toute simplicité.
+            </p>
+
+            <!-- Statistiques rapides -->
+            <div class="mt-8 grid grid-cols-3 gap-4">
+              <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-4 text-center border border-violet-100">
+                <p class="text-3xl font-bold text-violet-600">{{ totalEtudiants }}</p>
+                <p class="text-xs text-gray-500 mt-1">Étudiants inscrits</p>
+              </div>
+              <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-4 text-center border border-yellow-100">
+                <p class="text-3xl font-bold text-yellow-500">{{ totalEnAttente }}</p>
+                <p class="text-xs text-gray-500 mt-1">En attente</p>
+              </div>
+              <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-4 text-center border border-green-100">
+                <p class="text-3xl font-bold text-green-500">{{ totalAcceptes }}</p>
+                <p class="text-xs text-gray-500 mt-1">Stages acceptés</p>
+              </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="mt-8 flex flex-col gap-3 w-fit">
+              <div class="flex flex-wrap gap-3">
+                <button (click)="goToEtudiants()"
+                  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+                         border-violet-300 hover:border-violet-500 rounded-xl
+                         text-violet-700 text-sm font-semibold transition-all duration-300">
+                  🎓 Mes Étudiants
+                </button>
+                <button (click)="goToCandidatures()"
+                  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+                         border-violet-300 hover:border-violet-500 rounded-xl
+                         text-violet-700 text-sm font-semibold transition-all duration-300">
+                  📋 Candidatures
+                </button>
+                <button (click)="goToSuivi()"
+                  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+                         border-violet-300 hover:border-violet-500 rounded-xl
+                         text-violet-700 text-sm font-semibold transition-all duration-300">
+                  📊 Suivi & Avancement
+                </button>
+                <!-- Dans la div flex flex-wrap gap-3 des boutons dashboard -->
+<button (click)="goToEncadrants()"
+  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+         border-violet-300 hover:border-violet-500 rounded-xl
+         text-violet-700 text-sm font-semibold transition-all duration-300">
+  👨‍🏫 Encadrants
+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Image droite -->
+          <div class="col-span-12 lg:col-span-5 md:h-[550px] lg:h-[600px]">
+            <img src="https://civi.uxper.co/wp-content/uploads/2023/03/Group-49384.webp"
+              class="w-full h-full rounded-2xl shadow-2xl object-cover" />
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LISTE DES ÉTUDIANTS
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView === 'etudiants'" class="container mx-auto py-10 px-4">
+
+    <button (click)="goToDashboard()"
+      class="mb-6 text-violet-600 hover:underline text-sm font-medium">
+      ← Retour
+    </button>
+
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+      🎓 Mes Étudiants
+    </h2>
+
+    <!-- Barre de recherche -->
+    <div class="mb-6">
+      <input type="text" [(ngModel)]="searchEtudiant" placeholder="Rechercher un étudiant..."
+        class="w-full md:w-96 px-4 py-2 rounded-lg border border-gray-300 text-sm
+               focus:outline-none focus:ring-2 focus:ring-violet-400
+               dark:bg-neutral-700 dark:text-white" />
+    </div>
+
+    <div *ngIf="loading" class="text-center py-10 text-gray-400">Chargement...</div>
+
+    <div *ngIf="!loading"
+      class="bg-white dark:bg-neutral-800 rounded-xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 dark:bg-neutral-700 text-gray-500 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3 text-left">Nom & Prénom</th>
+            <th class="px-6 py-3 text-left">Email</th>
+            <th class="px-6 py-3 text-left">Niveau</th>
+            <th class="px-6 py-3 text-left">Spécialité</th>
+            <th class="px-6 py-3 text-left">État</th>
+            <th class="px-6 py-3 text-left">CV</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-neutral-700">
+          <tr *ngFor="let e of filteredEtudiants"
+            class="hover:bg-gray-50 dark:hover:bg-neutral-700 transition">
+            <td class="px-6 py-4 font-medium text-gray-800 dark:text-white">
+              {{ e.prenom }} {{ e.nom }}
+            </td>
+            <td class="px-6 py-4 text-gray-500">{{ e.email }}</td>
+            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ e.niveau ?? '—' }}</td>
+            <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ e.specialite ?? '—' }}</td>
+            <td class="px-6 py-4">
+              <span [ngClass]="e.etat ?
+                'px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700' :
+                'px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500'">
+                {{ e.etat ? 'Actif' : 'Inactif' }}
+              </span>
+            </td>
+            <td class="px-6 py-4">
+              <a *ngIf="e.cv" [href]="'assets/cv/uploads/' + e.cv"
+                target="_blank"
+                class="text-violet-600 hover:underline text-xs font-medium">
+                Voir CV
+              </a>
+              <span *ngIf="!e.cv" class="text-gray-300 text-xs">—</span>
+            </td>
+          </tr>
+          <tr *ngIf="filteredEtudiants.length === 0">
+            <td colspan="6" class="text-center py-12 text-gray-400">
+              Aucun étudiant trouvé
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CANDIDATURES À VALIDER
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView === 'candidatures'" class="container mx-auto py-10 px-4">
+
+    <button (click)="goToDashboard()"
+      class="mb-6 text-violet-600 hover:underline text-sm font-medium">
+      ← Retour
+    </button>
+
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+      📋 Candidatures à valider
+    </h2>
+
+    <!-- Messages -->
+    <div *ngIf="successMessage"
+      class="mb-4 px-4 py-3 bg-green-100 text-green-800 rounded-lg text-sm">
+      ✅ {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage"
+      class="mb-4 px-4 py-3 bg-red-100 text-red-800 rounded-lg text-sm">
+      ❌ {{ errorMessage }}
+    </div>
+
+    <!-- Filtres statut -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button (click)="changeCandidatureFilter('all')"
+        [ngClass]="candidatureFilter === 'all' ?
+          'px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white' :
+          'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Toutes
+      </button>
+      <button (click)="changeCandidatureFilter('EN_ATTENTE')"
+        [ngClass]="candidatureFilter === 'EN_ATTENTE' ?
+          'px-4 py-2 rounded-lg text-sm font-medium bg-yellow-500 text-white' :
+          'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        En attente
+      </button>
+      <button (click)="changeCandidatureFilter('ACCEPTE')"
+        [ngClass]="candidatureFilter === 'ACCEPTE' ?
+          'px-4 py-2 rounded-lg text-sm font-medium bg-green-600 text-white' :
+          'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Acceptées
+      </button>
+      <button (click)="changeCandidatureFilter('REFUSE')"
+        [ngClass]="candidatureFilter === 'REFUSE' ?
+          'px-4 py-2 rounded-lg text-sm font-medium bg-red-600 text-white' :
+          'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Refusées
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="text-center py-10 text-gray-400">Chargement...</div>
+
+    <div *ngIf="!loading"
+      class="bg-white dark:bg-neutral-800 rounded-xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 dark:bg-neutral-700 text-gray-500 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3 text-left">Étudiant</th>
+            <th class="px-6 py-3 text-left">Email</th>
+            <th class="px-6 py-3 text-left">Entreprise</th>
+            <th class="px-6 py-3 text-left">Offre</th>
+            <th class="px-6 py-3 text-left">Date</th>
+            <th class="px-6 py-3 text-left">Statut</th>
+            <th class="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-neutral-700">
+          <tr *ngFor="let c of filteredCandidatures"
+            class="hover:bg-gray-50 dark:hover:bg-neutral-700 transition">
+            <td class="px-6 py-4 font-medium text-gray-800 dark:text-white">
+              {{ c.etudiant?.prenom }} {{ c.etudiant?.nom }}
+            </td>
+            <td class="px-6 py-4 text-gray-500">{{ c.etudiant?.email }}</td>
+            <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
+              {{ c.offre?.entreprise?.nom ?? '—' }}
+            </td>
+            <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
+              {{ c.offre?.titre ?? '—' }}
+            </td>
+            <td class="px-6 py-4 text-gray-400 text-xs">
+              {{ c.datePostulation | date:'dd/MM/yyyy' }}
+            </td>
+            <td class="px-6 py-4">
+              <span [ngClass]="'px-2 py-1 rounded-full text-xs font-medium ' + getStatutClass(c.statut)">
+                {{ getStatutLabel(c.statut) }}
+              </span>
+            </td>
+            <td class="px-6 py-4">
+             <div *ngIf="c.statut?.toUpperCase() === 'ACCEPTE' && !c.statutInstitution 
+            || c.statutInstitution === 'EN_ATTENTE'" class="flex gap-2">
+                <button (click)="accepterCandidature(c.id)"
+                  class="px-3 py-1.5 bg-green-500 text-white text-xs rounded-lg
+                         hover:bg-green-600 transition font-medium">
+                  ✅ Accepter
+                </button>
+                <button (click)="openRefusModal(c.id)"
+                  class="px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg
+                         hover:bg-red-600 transition font-medium">
+                  ❌ Refuser
+                </button>
+              </div>
+              <div *ngIf="c.statut?.toUpperCase() !== 'EN_ATTENTE'">
+                <span class="text-gray-400 text-xs italic">Traité</span>
+                <p *ngIf="c.motifRefus"
+                  class="text-xs text-red-400 mt-1">
+                  Motif : {{ c.motifRefus }}
+                </p>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredCandidatures.length === 0">
+            <td colspan="7" class="text-center py-12 text-gray-400">
+              Aucune candidature trouvée
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- Section à ajouter dans institutionhome.component.html -->
+<div *ngIf="currentView === 'encadrants'" class="container mx-auto py-10 px-4">
+
+  <button (click)="goToDashboard()" class="mb-6 text-violet-600 hover:underline text-sm font-medium">
+    ← Retour
+  </button>
+  <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">👨‍🏫 Encadrants</h2>
+
+  <!-- Ajouter un encadrant -->
+  <div class="flex gap-3 mb-6">
+    <input type="text" [(ngModel)]="nouvelEncadrant"
+      placeholder="Nom Prénom|email@domaine.com"
+      class="flex-1 px-4 py-2 rounded-lg border border-gray-300 text-sm
+             focus:outline-none focus:ring-2 focus:ring-violet-400 dark:bg-neutral-700 dark:text-white">
+    <button (click)="ajouterEncadrant()"
+      class="px-5 py-2 bg-violet-600 text-white rounded-lg text-sm hover:bg-violet-700 transition">
+      + Ajouter
+    </button>
+  </div>
+
+  <!-- Liste -->
+  <div class="bg-white dark:bg-neutral-800 rounded-xl shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50 dark:bg-neutral-700 text-gray-500 uppercase text-xs">
+        <tr>
+          <th class="px-6 py-3 text-left">Nom</th>
+          <th class="px-6 py-3 text-left">Email</th>
+          <th class="px-6 py-3 text-left">Étudiants suivis</th>
+          <th class="px-6 py-3 text-left">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100 dark:divide-neutral-700">
+        <tr *ngFor="let enc of encadrants" class="hover:bg-gray-50 dark:hover:bg-neutral-700 transition">
+          <td class="px-6 py-4 font-medium text-gray-800 dark:text-white">{{ enc.split('|')[0] }}</td>
+          <td class="px-6 py-4 text-gray-500">{{ enc.split('|')[1] }}</td>
+          <td class="px-6 py-4">
+            <span [ngClass]="countEtudiants(enc) >= 12 ? 'text-red-500 font-bold' : 'text-gray-600'">
+              {{ countEtudiants(enc) }} / 12
+            </span>
+          </td>
+          <td class="px-6 py-4">
+            <button (click)="supprimerEncadrant(enc)"
+              class="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-xs hover:bg-red-200 transition">
+              Supprimer
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="encadrants.length === 0">
+          <td colspan="4" class="text-center py-12 text-gray-400">Aucun encadrant ajouté</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Demandes en attente de validation -->
+  <h3 class="text-xl font-semibold text-gray-800 dark:text-white mt-10 mb-4">
+    ⏳ Demandes d'encadrement à valider
+  </h3>
+  <div class="space-y-3">
+    <div *ngFor="let e of etudiantsEnAttente"
+      class="bg-white dark:bg-neutral-800 rounded-xl shadow p-4 flex items-center justify-between border border-yellow-100">
+      <div>
+        <p class="font-semibold text-gray-800 dark:text-white">{{ e.prenom }} {{ e.nom }}</p>
+        <p class="text-sm text-gray-500">Encadrant demandé : <strong>{{ e.encadrantChoisi?.split('|')[0] }}</strong></p>
+      </div>
+      <div class="flex gap-2">
+        <button (click)="validerEncadrant(e.id, 'ACCEPTE')"
+          class="px-3 py-1.5 bg-green-500 text-white text-xs rounded-lg hover:bg-green-600 transition">
+          ✅ Valider
+        </button>
+        <button (click)="validerEncadrant(e.id, 'REFUSE')"
+          class="px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition">
+          ❌ Refuser
+        </button>
+      </div>
+    </div>
+    <p *ngIf="etudiantsEnAttente.length === 0" class="text-gray-400 text-sm italic">
+      Aucune demande en attente.
+    </p>
+  </div>
+</div>
+  <!-- ═══════════════════════════════════════════════════════════
+       SUIVI & AVANCEMENT
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="currentView === 'suivi'" class="container mx-auto py-10 px-4">
+
+    <button (click)="goToDashboard()"
+      class="mb-6 text-violet-600 hover:underline text-sm font-medium">
+      ← Retour
+    </button>
+
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+      📊 Suivi & Avancement des étudiants
+    </h2>
+
+    <div *ngIf="loading" class="text-center py-10 text-gray-400">Chargement...</div>
+
+    <div *ngIf="!loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div *ngFor="let e of etudiants"
+        class="bg-white dark:bg-neutral-800 rounded-xl shadow p-5 border border-gray-100">
+
+        <!-- En-tête carte étudiant -->
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-full bg-violet-100 flex items-center justify-center
+                      text-violet-600 font-bold text-sm">
+            {{ e.prenom?.charAt(0) }}{{ e.nom?.charAt(0) }}
+          </div>
+          <div>
+            <p class="font-semibold text-gray-800 dark:text-white text-sm">
+              {{ e.prenom }} {{ e.nom }}
+            </p>
+            <p class="text-xs text-gray-400">{{ e.specialite ?? 'Spécialité non renseignée' }}</p>
+          </div>
+        </div>
+
+        <!-- Statut candidature -->
+        <div class="space-y-2">
+          <div *ngFor="let c of getCandidaturesEtudiant(e.id)"
+            class="flex items-center justify-between bg-gray-50 dark:bg-neutral-700
+                   rounded-lg px-3 py-2">
+            <span class="text-xs text-gray-600 dark:text-gray-300 truncate max-w-[150px]">
+              {{ c.offre?.titre ?? 'Offre inconnue' }}
+            </span>
+            <span [ngClass]="'px-2 py-0.5 rounded-full text-xs font-medium ' + getStatutClass(c.statut)">
+              {{ getStatutLabel(c.statut) }}
+            </span>
+          </div>
+          <p *ngIf="getCandidaturesEtudiant(e.id).length === 0"
+            class="text-xs text-gray-400 italic text-center py-2">
+            Aucune candidature
+          </p>
+        </div>
+
+      </div>
+
+      <div *ngIf="etudiants.length === 0"
+        class="col-span-3 text-center py-12 text-gray-400">
+        Aucun étudiant inscrit pour le moment
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MODAL REFUS — Saisie du motif
+  ════════════════════════════════════════════════════════════ -->
+  <div *ngIf="showRefusModal"
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-neutral-800 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+        Motif de refus
+      </h3>
+      <p class="text-sm text-gray-500 mb-4">
+        Veuillez préciser la raison du refus. Ce motif sera envoyé par email à l'étudiant.
+      </p>
+
+      <textarea [(ngModel)]="motifRefus" rows="4"
+        placeholder="Ex : Le nombre de places disponibles est insuffisant..."
+        class="w-full px-4 py-3 rounded-lg border border-gray-300 text-sm
+               focus:outline-none focus:ring-2 focus:ring-red-400
+               dark:bg-neutral-700 dark:text-white resize-none">
+      </textarea>
+
+      <div class="flex gap-3 mt-5">
+        <button (click)="closeRefusModal()"
+          class="flex-1 px-4 py-2 border border-gray-300 text-gray-600
+                 rounded-lg text-sm hover:bg-gray-50 transition">
+          Annuler
+        </button>
+        <button (click)="confirmerRefus()"
+          [disabled]="!motifRefus.trim()"
+          class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg text-sm
+                 hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          Confirmer le refus
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>
+</body>
+</html>

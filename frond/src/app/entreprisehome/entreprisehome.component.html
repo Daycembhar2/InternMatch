@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" data-mode="light" class="scroll-smooths group" data-theme-color="violet">
+<head>
+  <meta charset="utf-8" />
+  <title>Entreprise Home | InternMatch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+</head>
+<body class="bg-white dark:bg-neutral-800">
+<div id="wrapper" class="fullwidth">
+  <app-header></app-header>
+
+  <!-- ========== DASHBOARD ========== -->
+  <div *ngIf="currentView === 'dashboard'">
+
+    <!-- Hero -->
+    <section class="relative bg-violet-500/20 dark:bg-violet-500/20 py-28">
+      <div class="container mx-auto">
+        <div class="grid items-center grid-cols-12 gap-10">
+
+          <div class="col-span-12 lg:col-span-7">
+            <h6 class="mb-3 text-sm text-gray-900 uppercase dark:text-gray-50">Pour les employeurs</h6>
+            <h1 class="mb-3 text-5xl font-semibold leading-tight text-gray-900 dark:text-gray-50">
+              Vous souhaitez publier une offre d’emploi ou un stage sur 
+              <span class="font-bold text-violet-500">InternMatch</span>
+            </h1>
+            <p class="text-lg font-light text-gray-500 dark:text-gray-300">
+              Publiez votre offre en quelques secondes.
+            </p>
+
+            <div class="mt-8 flex flex-col gap-3 w-fit">
+              <!-- Bouton publier avec quota -->
+<button *ngIf="canPost; else quotaBlock"
+  (click)="goToPostJobAction()"
+  class="px-8 py-3 bg-violet-600 hover:bg-violet-700 rounded-xl
+         text-white text-base font-semibold shadow-md transition-all duration-300">
+  🚀 Publier une offre
+</button>
+
+<ng-template #quotaBlock>
+  <button (click)="goToUpgrade()"
+    class="px-8 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl
+           text-white text-base font-semibold shadow-md">
+    ⚡ Quota atteint — Changer de plan
+  </button>
+</ng-template>
+
+<!-- Infos plan actif -->
+<p class="text-sm text-gray-400 mt-2">
+  Plan <strong class="text-violet-600">{{ activePlan?.name }}</strong> —
+  <span *ngIf="activePlan?.maxOffres === -1" class="text-green-500">
+    Offres illimitées
+  </span>
+  <span *ngIf="activePlan?.maxOffres !== -1"
+    [class.text-red-400]="remainingOffres === 0"
+    [class.text-orange-400]="remainingOffres <= 2 && remainingOffres > 0"
+    [class.text-gray-400]="remainingOffres > 2">
+    {{ remainingOffres }}/{{ activePlan?.maxOffres }} offres restantes
+  </span>
+</p>
+
+<!-- ✅ Message d'upgrade uniquement quand quota atteint -->
+<p *ngIf="remainingOffres === 0 && activePlan?.maxOffres !== -1"
+  class="text-xs text-orange-500 mt-1 font-medium">
+  ⚡ Quota atteint — 
+  <span class="underline cursor-pointer" (click)="goToUpgrade()">
+    Passer au plan Premium
+  </span>
+</p>
+              <div class="flex flex-wrap gap-3">
+                <button (click)="goToCandidatures()"
+                  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+                         border-violet-300 hover:border-violet-500 rounded-xl
+                         text-violet-700 text-sm font-semibold transition-all duration-300">
+                  📋 Voir Candidatures
+                </button>
+                <button routerLink="/entreprise/offres"
+                  class="flex-1 px-5 py-2.5 bg-white hover:bg-violet-50 border-2
+                         border-violet-300 hover:border-violet-500 rounded-xl
+                         text-violet-700 text-sm font-semibold transition-all duration-300">
+                  📁 Mes Offres
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-12 lg:col-span-5 md:h-[550px] lg:h-[600px]">
+            <img src="https://civi.uxper.co/wp-content/uploads/2023/03/Group-49384.webp"
+              class="w-full h-full rounded-2xl shadow-2xl object-cover"/>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-10 bg-gray-50 dark:bg-neutral-800">
+      <div class="container mx-auto">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+          <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-5 text-center">
+            <div class="text-3xl font-bold text-violet-600">{{ offres.length }}</div>
+            <div class="text-sm text-gray-500 mt-1">Offres publiées</div>
+          </div>
+
+          <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-5 text-center">
+            <div class="text-3xl font-bold text-blue-600">{{ candidatures.length }}</div>
+            <div class="text-sm text-gray-500 mt-1">Candidatures reçues</div>
+          </div>
+
+          <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-5 text-center">
+            <div class="text-3xl font-bold text-green-600">{{ nbAcceptees }}</div>
+            <div class="text-sm text-gray-500 mt-1">Acceptées</div>
+          </div>
+
+          <div class="bg-white dark:bg-neutral-700 rounded-xl shadow p-5 text-center">
+            <div class="text-3xl font-bold text-yellow-600">{{ nbEnAttente }}</div>
+            <div class="text-sm text-gray-500 mt-1">En attente</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Graphiques -->
+    <section class="py-10 dark:bg-neutral-900" *ngIf="candidatures.length > 0">
+      <div class="container mx-auto">
+
+        <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-6 text-center">
+          📊 Statistiques de recrutement
+        </h4>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- Camembert -->
+          <div class="bg-white dark:bg-neutral-800 rounded-xl shadow p-6">
+            <h6 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-4 text-center">
+              Répartition des candidatures
+            </h6>
+            <canvas id="pieChart" height="300"></canvas>
+          </div>
+
+          <!-- Barres -->
+          <div class="bg-white dark:bg-neutral-800 rounded-xl shadow p-6">
+            <h6 class="text-sm font-semibold text-gray-600 dark:text-gray-300 mb-4 text-center">
+              Candidatures par offre
+            </h6>
+            <canvas id="barChart" height="300"></canvas>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+  <!-- Fin dashboard -->
+
+  <!-- ========== CANDIDATURES ========== -->
+  <div *ngIf="currentView === 'candidatures'" class="container mx-auto py-10 px-4">
+
+    <button (click)="goToDashboard()"
+      class="mb-6 text-violet-600 hover:underline text-sm font-medium">
+      ← Retour
+    </button>
+
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
+      Candidatures reçues
+    </h2>
+
+    <div *ngIf="successMessage"
+      class="mb-4 px-4 py-3 bg-green-100 text-green-800 rounded-lg text-sm">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage"
+      class="mb-4 px-4 py-3 bg-red-100 text-red-800 rounded-lg text-sm">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Filtres -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <select (change)="onOffreChange($event)"
+        class="px-4 py-2 rounded-lg border border-gray-300 text-sm
+               bg-white dark:bg-neutral-700 dark:text-white">
+        <option value="">Toutes les offres</option>
+        <option *ngFor="let o of offres" [value]="o.id">{{ o.titre }}</option>
+      </select>
+
+      <button (click)="changeCandidatureFilter('all')"
+        [ngClass]="candidatureFilter==='all'
+          ? 'px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white'
+          : 'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Toutes
+      </button>
+      <button (click)="changeCandidatureFilter('EN_ATTENTE')"
+        [ngClass]="candidatureFilter==='EN_ATTENTE'
+          ? 'px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white'
+          : 'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        En attente
+      </button>
+      <button (click)="changeCandidatureFilter('ACCEPTE')"
+        [ngClass]="candidatureFilter==='ACCEPTE'
+          ? 'px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white'
+          : 'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Acceptées
+      </button>
+      <button (click)="changeCandidatureFilter('REFUSE')"
+        [ngClass]="candidatureFilter==='REFUSE'
+          ? 'px-4 py-2 rounded-lg text-sm font-medium bg-violet-600 text-white'
+          : 'px-4 py-2 rounded-lg text-sm font-medium bg-white border border-gray-300 text-gray-600'">
+        Refusées
+      </button>
+    </div>
+
+    <!-- Spinner -->
+    <div *ngIf="loading" class="text-center py-10 text-gray-400">
+      Chargement...
+    </div>
+
+    <!-- Tableau -->
+    <div *ngIf="!loading"
+      class="bg-white dark:bg-neutral-800 rounded-xl shadow overflow-hidden">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 dark:bg-neutral-700 text-gray-500 uppercase text-xs">
+          <tr>
+            <th class="px-6 py-3 text-left">Candidat</th>
+            <th class="px-6 py-3 text-left">Email</th>
+            <th class="px-6 py-3 text-left">Offre</th>
+            <th class="px-6 py-3 text-left">Date</th>
+            <th class="px-6 py-3 text-left">Statut</th>
+            <th class="px-6 py-3 text-left">CV</th>
+            <th class="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100 dark:divide-neutral-700">
+          <tr *ngFor="let c of filteredCandidatures"
+            class="hover:bg-gray-50 dark:hover:bg-neutral-700 transition">
+
+            <td class="px-6 py-4 font-medium text-gray-800 dark:text-white">
+              {{ getNomCandidat(c) }}
+            </td>
+            <td class="px-6 py-4 text-gray-500">
+              {{ getEmailCandidat(c) }}
+            </td>
+            <td class="px-6 py-4 text-gray-700 dark:text-gray-200">
+              {{ getOffreTitre(c.offre) }}
+            </td>
+            <td class="px-6 py-4 text-gray-400 text-xs">
+              {{ c.datePostulation | date:'dd/MM/yyyy' }}
+            </td>
+            <td class="px-6 py-4">
+              <span [ngClass]="'px-2 py-1 rounded-full text-xs font-medium ' + getStatutClass(c.statut)">
+                {{ getStatutLabel(c.statut) }}
+              </span>
+            </td>
+           <td class="px-6 py-4">
+  <div class="flex flex-col gap-2">
+    
+    <!-- Voir CV -->
+    <a *ngIf="c.cv" [href]="'assets/cv/uploads/' + c.cv"
+      target="_blank"
+      class="text-violet-600 hover:underline text-xs font-medium">
+      👁 Voir CV
+    </a>
+    <span *ngIf="!c.cv" class="text-gray-300 text-xs">—</span>
+
+    <!-- Bouton Analyser -->
+    <button *ngIf="c.cv"
+      (click)="analyserCV(c)"
+      [disabled]="analyzingId === c.id"
+      class="px-2 py-1 bg-violet-100 text-violet-700 text-xs rounded-lg
+             hover:bg-violet-200 transition font-medium disabled:opacity-50">
+      {{ analyzingId === c.id ? '⏳ Analyse...' : '🤖 Analyser IA' }}
+    </button>
+
+    <!-- Résultat analyse -->
+    <div *ngIf="analysisResults[c.id]"
+      class="mt-1 p-2 rounded-lg text-xs"
+      [ngClass]="{
+        'bg-green-50 text-green-700': analysisResults[c.id].decision === 'ACCEPTÉ',
+        'bg-yellow-50 text-yellow-700': analysisResults[c.id].decision === 'EN_ATTENTE',
+        'bg-red-50 text-red-700': analysisResults[c.id].decision === 'REJETÉ'
+      }">
+      <div class="font-bold">
+        {{ analysisResults[c.id].decision === 'ACCEPTÉ' ? '✅' : 
+           analysisResults[c.id].decision === 'EN_ATTENTE' ? '⏳' : '❌' }}
+        {{ analysisResults[c.id].decision }} — {{ analysisResults[c.id].score }}/100
+      </div>
+      <div class="mt-1 text-xs opacity-80">{{ analysisResults[c.id].raison }}</div>
+    </div>
+
+  </div>
+</td>
+            <td class="px-6 py-4">
+              <div *ngIf="c.statut?.toUpperCase() === 'EN_ATTENTE'" class="flex gap-2">
+                <button (click)="acceptCandidature(c.id)"
+                  class="px-3 py-1.5 bg-green-500 text-white text-xs rounded-lg
+                         hover:bg-green-600 transition font-medium">
+                  Accepter
+                </button>
+                <button (click)="declineCandidature(c.id)"
+                  class="px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg
+                         hover:bg-red-600 transition font-medium">
+                  Refuser
+                </button>
+              </div>
+             <div *ngIf="c.statut?.toUpperCase() === 'ACCEPTE'"
+    class="flex items-center gap-1.5 px-3 py-1.5 bg-green-100 text-green-700
+           rounded-lg text-xs font-semibold w-fit">
+    ✅ Acceptée
+  </div>
+
+  <div *ngIf="c.statut?.toUpperCase() === 'REFUSE'"
+    class="flex items-center gap-1.5 px-3 py-1.5 bg-red-100 text-red-700
+           rounded-lg text-xs font-semibold w-fit">
+    ❌ Refusée
+  </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="filteredCandidatures.length === 0">
+            <td colspan="7" class="text-center py-12 text-gray-400">
+              Aucune candidature trouvée
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- Fin candidatures -->
+
+  <app-footer></app-footer>
+</div>
+</body>
+</html>
