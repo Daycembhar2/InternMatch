@@ -16,3 +16,9 @@ frond\src\assets\images\uploads/
 frond/.angular/
 .angular/
 frond/src/assets/images/
+admin/.angular/
+admin/node_modules/
+admin/dist/
+admin/src/assets/images/
+admin/src/assets/fonts/
+admin/src/assets/libs/
